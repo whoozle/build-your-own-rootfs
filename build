@@ -53,4 +53,8 @@ rm -f $ROOTFS
 . packages/openssl
 . packages/wpa-supplicant
 
+pushd .install
+append
+popd
+
 echo OK
