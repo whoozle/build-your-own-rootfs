@@ -1,3 +1,4 @@
 .sources
 .build
 .install
+root.tar*
