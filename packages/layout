@@ -1,0 +1,78 @@
+#!/bin/sh
+
+PACKAGE=layout
+
+log "preparing layout..."
+rm -rf .build/layout
+mkdir -p .build/layout
+pushd .build/layout
+
+mkdir dev
+mkdir etc
+mkdir media
+mkdir sys
+mkdir proc
+mkdir tmp
+mkdir var
+
+log "adding bootscripts..."
+#echo "::sysinit:/etc/init.d/rcS" > etc/inittab
+
+mkdir -p etc/init.d
+cat > etc/init.d/rcS <<EOL
+#!/bin/sh
+
+
+echo "starting init..."
+# Start all init scripts in /etc/init.d
+# executing them in numerical order.
+#
+for i in /etc/init.d/S??* ;do
+
+    echo "processing $i"
+    # Ignore dangling symlinks (if any).
+    [ ! -f "$i" ] && continue
+
+    case "$i" in
+    *.sh)
+        # Source shell script for speed.
+        (
+        trap - INT QUIT TSTP
+        set start
+        . $i
+        )
+        ;;
+    *)
+    # No sh extension, so fork subprocess.
+        $i start
+        ;;
+    esac
+
+echo "rcS done"
+done
+EOL
+chmod +x etc/init.d/rcS
+
+cat > etc/init.d/S00boot.sh <<EOL
+#!/bin/sh
+
+echo "mounting /proc"
+mount -t proc proc /proc
+echo "mounting /sys"
+mount -t sysfs sysfs /sys
+echo "switching to mdev"
+echo /sbin/mdev > /proc/sys/kernel/hotplug
+echo "populating devices from sysfs"
+mdev -s
+echo "boot done"
+
+EOL
+
+cat > etc/fstab <<EOL
+/dev/mmcblk0p1		/boot		vfat		noauto,noatime	1 2
+/dev/mmcblk0p2		/		ext4		noatime		0 1
+EOL
+
+append
+
+popd

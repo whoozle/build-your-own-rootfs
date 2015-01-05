@@ -1,0 +1,56 @@
+#!/bin/sh
+
+wget --version >/dev/null 2>/dev/null || { echo "wget program required"; exit; }
+basename --version >/dev/null 2>/dev/null || { echo "basename program required"; exit; }
+
+PREFIX=$1
+${PREFIX}gcc --version >/dev/null || { echo "${PREFIX}gcc was not found"; exit; }
+
+function download {
+    mkdir .sources 2> /dev/null
+    URL=$1
+    FILE=`basename $URL`
+    DST=.sources/$FILE
+    if [ ! -e $DST ]; then
+        wget -o .sources/wget.log -c $URL -O $DST.partial || { echo "failed downloading $URL"; exit; }
+        mv $DST.partial $DST
+    fi
+    echo $DST
+}
+
+function unpack {
+    SRC=$1
+    DST=$2
+    mkdir -p .build 2>/dev/null
+    if [ ! -e .build/$DST ]; then
+        tar xf $SRC -C .build
+    fi
+}
+
+function log {
+    echo "${PACKAGE}: $*"
+}
+
+function append {
+    SRC=$1
+    tar --append --file=$ROOTFS --owner=0 --group=0 .
+}
+
+JOBS=8
+ROOTFS=`pwd`/root.tar
+
+mkdir .install
+export INSTALL_DIR=`pwd`/.install
+
+export CC=${PREFIX}gcc
+export CXX=${PREFIX}g++
+
+rm -f $ROOTFS
+
+. packages/layout
+. packages/busybox
+. packages/libnl
+. packages/openssl
+. packages/wpa-supplicant
+
+echo OK

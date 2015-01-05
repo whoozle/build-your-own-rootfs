@@ -1,0 +1,15 @@
+#!/bin/sh
+
+F=$(download http://w1.fi/releases/wpa_supplicant-2.3.tar.gz)
+unpack $F wpa_supplicant-2.3
+
+pushd .build/wpa_supplicant-2.3/wpa_supplicant
+echo "CFLAGS += -I${INSTALL_DIR}/usr/include" > .config
+echo "LIBS += -L${INSTALL_DIR}/usr/lib" >> .config
+echo "LIBS_p += -L${INSTALL_DIR}/usr/lib -ldl" >> .config
+echo "export LIBDIR=/usr/lib" >> .config
+echo "export BINDIR=/usr/bin" >> .config
+cat defconfig >> .config
+make -j${JOBS} CC=${PREFIX}gcc
+make install DESTDIR=${INSTALL_DIR}
+popd

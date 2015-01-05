@@ -1,0 +1,10 @@
+#!/bin/sh
+
+F=$(download https://www.openssl.org/source/openssl-1.0.1j.tar.gz)
+unpack $F openssl-1.0.1j
+
+pushd .build/openssl-1.0.1j
+ARCH=arm ./Configure --prefix=/usr linux-generic32
+make -j${JOBS} #openssl fails on parallel builds
+make install INSTALL_PREFIX=${INSTALL_DIR}
+popd
