@@ -15,19 +15,19 @@ if [ $DIR != "." ]; then
 	PATH=`dirname $1`:$PATH
 fi
 
-PREFIX=`basename $1`
-echo -e "prefix:\t$PREFIX"
+HOST=`basename $1`
+echo -e "host:\t$HOST"
 ARCH=$(
 	IFS=-
-	set -- $PREFIX
+	set -- $HOST
 	echo $1
 )
 echo -e "arch:\t$ARCH"
 
-${PREFIX}gcc --version >/dev/null || { echo "${PREFIX}gcc was not found"; exit; }
+${HOST}gcc --version >/dev/null || { echo "${HOST}gcc was not found"; exit; }
 
 export PATH
-export PREFIX
+export HOST
 export ARCH
 
 function download {
@@ -66,8 +66,8 @@ ROOTFS=`pwd`/root.tar
 mkdir .install
 export INSTALL_DIR=`pwd`/.install
 
-export CC=${PREFIX}gcc
-export CXX=${PREFIX}g++
+export CC=${HOST}gcc
+export CXX=${HOST}g++
 
 rm -f $ROOTFS
 

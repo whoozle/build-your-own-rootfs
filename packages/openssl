@@ -5,7 +5,7 @@ F=$(download https://www.openssl.org/source/openssl-${V}.tar.gz)
 unpack $F $V
 
 pushd .build/openssl-${V}
-ARCH=arm ./Configure --prefix=/usr linux-generic32
+ARCH=${ARCH} ./Configure --prefix=/usr linux-generic32
 make -j${JOBS}
 make install INSTALL_PREFIX=${INSTALL_DIR}
 popd

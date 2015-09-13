@@ -5,7 +5,7 @@ F=$(download http://www.infradead.org/~tgr/libnl/files/libnl-${V}.tar.gz)
 unpack $F libnl-${V}
 
 pushd .build/libnl-${V}
-./configure --host=arm-linux-gnueabi --prefix=/usr
+./configure --host=${HOST} --prefix=/usr
 make -j${JOBS}
 mkdir .install
 make install DESTDIR=${INSTALL_DIR}
