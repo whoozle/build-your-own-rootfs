@@ -2,9 +2,33 @@
 
 wget --version >/dev/null 2>/dev/null || { echo "wget program required"; exit; }
 basename --version >/dev/null 2>/dev/null || { echo "basename program required"; exit; }
+dirname --version >/dev/null 2>/dev/null || { echo "dirname program required"; exit; }
 
-PREFIX=$1
+if [ "x$1" = "x" ]; then
+    echo "please use path to your toolchain, with toolchain prefix, e.g /usr/bin/armv7a-hardfloat-linux-gnueabi-"
+    exit
+fi
+
+DIR=`dirname $1`
+if [ $DIR != "." ]; then
+	echo -e "path:\t$DIR"
+	PATH=`dirname $1`:$PATH
+fi
+
+PREFIX=`basename $1`
+echo -e "prefix:\t$PREFIX"
+ARCH=$(
+	IFS=-
+	set -- $PREFIX
+	echo $1
+)
+echo -e "arch:\t$ARCH"
+
 ${PREFIX}gcc --version >/dev/null || { echo "${PREFIX}gcc was not found"; exit; }
+
+export PATH
+export PREFIX
+export ARCH
 
 function download {
     mkdir .sources 2> /dev/null
