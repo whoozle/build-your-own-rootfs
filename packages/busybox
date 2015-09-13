@@ -3,10 +3,11 @@
 PACKAGE=busybox
 log "building busybox..."
 
-F=$(download http://www.busybox.net/downloads/busybox-1.23.0.tar.bz2)
-unpack $F busybox-1.23.0
+V=1.23.2
+F=$(download http://www.busybox.net/downloads/busybox-${V}.tar.bz2)
+unpack $F busybox-${V}
 
-pushd .build/busybox-1.23.0 >>/dev/null
+pushd .build/busybox-${V} >>/dev/null
 log "preparing default config..."
 
 make defconfig 2>&1 >>../busybox.log

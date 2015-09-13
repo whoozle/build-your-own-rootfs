@@ -1,9 +1,10 @@
 #!/bin/sh
 
-F=$(download http://w1.fi/releases/wpa_supplicant-2.3.tar.gz)
-unpack $F wpa_supplicant-2.3
+V=2.4
+F=$(download http://w1.fi/releases/wpa_supplicant-${V}.tar.gz)
+unpack $F wpa_supplicant-${V}
 
-pushd .build/wpa_supplicant-2.3/wpa_supplicant
+pushd .build/wpa_supplicant-${V}/wpa_supplicant
 echo "CFLAGS += -I${INSTALL_DIR}/usr/include" > .config
 echo "LIBS += -L${INSTALL_DIR}/usr/lib" >> .config
 echo "LIBS_p += -L${INSTALL_DIR}/usr/lib -ldl" >> .config

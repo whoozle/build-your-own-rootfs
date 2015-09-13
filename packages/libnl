@@ -1,9 +1,10 @@
 #!/bin/sh
 
-F=$(download http://www.infradead.org/~tgr/libnl/files/libnl-1.1.4.tar.gz)
-unpack $F libnl-1.1.4
+V=1.1.4
+F=$(download http://www.infradead.org/~tgr/libnl/files/libnl-${V}.tar.gz)
+unpack $F libnl-${V}
 
-pushd .build/libnl-1.1.4
+pushd .build/libnl-${V}
 ./configure --host=arm-linux-gnueabi --prefix=/usr
 make -j${JOBS}
 mkdir .install
