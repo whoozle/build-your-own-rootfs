@@ -1,0 +1,9 @@
+V=1.2.8
+F=$(download http://zlib.net/zlib-${V}.tar.xz)
+unpack $F $V
+
+pushd .build/zlib-${V}
+CC=${CROSS_COMPILE}gcc TARGETMACH=${HOST} CROSS=${CROSS_COMPILE} ./configure --prefix=/usr
+make -j${JOBS}
+make install DESTDIR=${INSTALL_DIR}
+popd
