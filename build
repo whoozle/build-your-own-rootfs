@@ -104,7 +104,7 @@ rm -f $ROOTFS
 
 . packages/openssl
 . packages/libnl
-. packages/wpa-supplicant
+#. packages/wpa-supplicant #need kernel headers
 
 pushd .build/layout
 cleanup_files
