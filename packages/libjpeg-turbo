@@ -1,0 +1,18 @@
+V=1.4.2
+F=$(download ftp://jpeg/libjpeg-turbo-${V}.tar.gz)
+unpack $F $V
+
+pushd .build/libjpeg-turbo-${V}
+
+./configure --prefix=/usr --host=${HOST} \
+	CC=${CROSS_COMPILE}gcc \
+	AR=${CROSS_COMPILE}ar \
+	STRIP=${CROSS_COMPILE}strip \
+	RANLIB=${CROSS_COMPILE}ranlib \
+	CPPFLAGS=-I${INSTALL_DIR}/usr/include \
+	LDFLAGS=-L${INSTALL_DIR}/usr/lib
+
+make -j${JOBS}
+
+make install DESTDIR=${INSTALL_DIR}
+popd

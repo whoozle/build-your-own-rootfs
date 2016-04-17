@@ -79,6 +79,7 @@ rm -f $ROOTFS
 . packages/libnl
 . packages/zlib
 . packages/libpng
+. packages/libjpeg-turbo
 . packages/freetype
 . packages/openssl
 . packages/wpa-supplicant
