@@ -1,3 +1,5 @@
+#!/bin/sh
+
 V=1.5.2
 T=ea3c6f0
 F=$(download http://mtd/mtd-utils-${V}.tar.gz) #fixme: http://git.infradead.org/mtd-utils.git/snapshot/vXXXX
