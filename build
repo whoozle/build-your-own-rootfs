@@ -94,7 +94,6 @@ rm -f $ROOTFS
 
 . packages/zlib
 . packages/lzo
-. packages/libnl
 
 . packages/e2fsprogs
 . packages/mtd-utils
@@ -102,7 +101,9 @@ rm -f $ROOTFS
 . packages/libpng
 . packages/libjpeg-turbo
 . packages/freetype
+
 . packages/openssl
+. packages/libnl
 . packages/wpa-supplicant
 
 pushd .build/layout
