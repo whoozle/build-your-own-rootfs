@@ -3,7 +3,7 @@
 PACKAGE=busybox
 log "building busybox..."
 
-V=1.23.2
+V=1.24.1
 F=$(download http://www.busybox.net/downloads/busybox-${V}.tar.bz2)
 unpack $F busybox-${V}
 
