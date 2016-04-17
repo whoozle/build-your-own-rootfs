@@ -1,3 +1,7 @@
+#!/bin/sh
+
+echo "mounting /dev"
+mount -t devtmpfs dev /dev
 echo "mounting /proc"
 mount -t proc proc /proc
 echo "mounting /sys"
