@@ -89,9 +89,14 @@ export CXX=${HOST}g++
 rm -f $ROOTFS
 
 . packages/layout
+
 . packages/busybox
-. packages/libnl
+
 . packages/zlib
+. packages/lzo
+. packages/e2fsprogs
+. packages/mtd-utils
+. packages/libnl
 . packages/libpng
 . packages/libjpeg-turbo
 . packages/freetype
