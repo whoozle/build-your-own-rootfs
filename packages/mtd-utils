@@ -1,0 +1,14 @@
+V=1.5.2
+T=ea3c6f0
+F=$(download http://mtd/mtd-utils-${V}.tar.gz) #fixme: http://git.infradead.org/mtd-utils.git/snapshot/vXXXX
+unpack $F $V
+
+pushd .build/mtd-utils-v${V}-${T}
+
+make CROSS=${CROSS_COMPILE} -j${JOBS} \
+	CFLAGS=-I${INSTALL_DIR}/usr/include \
+	LDFLAGS=-L${INSTALL_DIR}/usr/lib \
+	WITHOUT_LZO=1 WITHOUT_XATTR=1
+
+make install DESTDIR=${INSTALL_DIR}
+popd
