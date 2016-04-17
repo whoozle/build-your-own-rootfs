@@ -12,9 +12,9 @@ log "preparing default config..."
 
 make defconfig 2>&1 >>../busybox.log
 log "compiling..."
-make CROSS_COMPILE=$HOST -j${JOBS} 2>&1 >>../busybox.log
+make CROSS_COMPILE=$(CROSS_COMPILE) -j${JOBS} 2>&1 >>../busybox.log
 log "installing..."
-make CROSS_COMPILE=$HOST install 2>&1 >>../busybox.log
+make CROSS_COMPILE=$(CROSS_COMPILE) install 2>&1 >>../busybox.log
 log "appending to rootfs..."
 pushd _install 2>&1 >>../busybox.log
 append

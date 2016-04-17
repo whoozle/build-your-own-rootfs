@@ -15,7 +15,9 @@ if [ $DIR != "." ]; then
 	PATH=`dirname $1`:$PATH
 fi
 
-HOST=`basename $1`
+CROSS_COMPILE=$(basename $1)
+HOST=${CROSS_COMPILE:0:-1}
+echo -e "cc:\t$CROSS_COMPILE"
 echo -e "host:\t$HOST"
 ARCH=$(
 	IFS=-
@@ -24,7 +26,7 @@ ARCH=$(
 )
 echo -e "arch:\t$ARCH"
 
-${HOST}gcc --version >/dev/null || { echo "${HOST}gcc was not found"; exit; }
+${CROSS_COMPILE}gcc --version >/dev/null || { echo "${CROSS_COMPILE}gcc was not found"; exit; }
 
 export PATH
 export HOST

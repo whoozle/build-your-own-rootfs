@@ -11,6 +11,6 @@ echo "LIBS_p += -L${INSTALL_DIR}/usr/lib -ldl" >> .config
 echo "export LIBDIR=/usr/lib" >> .config
 echo "export BINDIR=/usr/bin" >> .config
 cat defconfig >> .config
-make -j${JOBS} CC=${HOST}gcc
+make -j${JOBS} CC=${CROSS_COMPILE}gcc
 make install DESTDIR=${INSTALL_DIR}
 popd
