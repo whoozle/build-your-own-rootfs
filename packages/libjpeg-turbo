@@ -1,5 +1,5 @@
 V=1.4.2
-F=$(download ftp://jpeg/libjpeg-turbo-${V}.tar.gz)
+F=$(download http://downloads.sourceforge.net/project/libjpeg-turbo/${V}/libjpeg-turbo-${V}.tar.gz)
 unpack $F $V
 
 pushd .build/libjpeg-turbo-${V}
