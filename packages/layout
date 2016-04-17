@@ -4,17 +4,23 @@ PACKAGE=layout
 
 ROOT=`pwd`
 log "preparing layout..."
+SYSROOT=$(arm-unknown-linux-gnueabi-gcc --print-sysroot)
+if [ "x$SYSROOT" = "x" ]; then echo "NO GCC SYSROOT, IMAGE WILL NOT WORK"; exit 1; fi
+
 rm -rf .build/layout
 mkdir -p .build/layout
 pushd .build/layout
 
-mkdir dev
-mkdir etc
-mkdir media
-mkdir sys
-mkdir proc
-mkdir tmp
-mkdir var
+log "copying sysroot data..."
+cp -ra $SYSROOT/* .
+
+mkdir dev 2>/dev/null
+mkdir etc 2>/dev/null
+mkdir media 2>/dev/null
+mkdir sys 2>/dev/null
+mkdir proc 2>/dev/null
+mkdir tmp 2>/dev/null
+mkdir var 2>/dev/null
 
 log "adding initial layout..."
 #echo "::sysinit:/etc/init.d/rcS" > etc/inittab
