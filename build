@@ -65,7 +65,7 @@ function append {
 JOBS=8
 ROOTFS=`pwd`/root.tar
 
-mkdir .install
+mkdir .install 2> /dev/null
 export INSTALL_DIR=`pwd`/.install
 
 export CC=${HOST}gcc
@@ -76,6 +76,9 @@ rm -f $ROOTFS
 . packages/layout
 . packages/busybox
 . packages/libnl
+. packages/zlib
+. packages/libpng
+. packages/freetype
 . packages/openssl
 . packages/wpa-supplicant
 
