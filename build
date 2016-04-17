@@ -30,6 +30,7 @@ ${CROSS_COMPILE}gcc --version >/dev/null || { echo "${CROSS_COMPILE}gcc was not 
 
 export PATH
 export HOST
+export CROSS_COMPILE
 export ARCH
 
 function download {
