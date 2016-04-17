@@ -1,0 +1,2 @@
+/dev/mmcblk0p1		/			squashfs		noatime			0 1
+/dev/mmcblk0p2		/data		auto			noatime			0 0
