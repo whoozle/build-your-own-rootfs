@@ -1,6 +1,6 @@
 #!/bin/sh
 
-V=1.0.2d
+V=1.0.2g
 F=$(download https://www.openssl.org/source/openssl-${V}.tar.gz)
 unpack $F $V
 
