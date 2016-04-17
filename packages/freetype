@@ -1,0 +1,12 @@
+V=2.6.3
+F=$(download http://download.savannah.gnu.org/releases/freetype/freetype-${V}.tar.bz2)
+unpack $F $V
+
+pushd .build/freetype-${V}
+
+./configure CC=${CROSS_COMPILE}gcc --prefix=/usr --host=${HOST} --with-png=no
+
+make -j${JOBS}
+make install DESTDIR=${INSTALL_DIR}
+popd
+
