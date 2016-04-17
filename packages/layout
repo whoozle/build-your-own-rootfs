@@ -24,8 +24,8 @@ mkdir var 2>/dev/null
 
 log "adding initial layout..."
 #echo "::sysinit:/etc/init.d/rcS" > etc/inittab
-cp -r ${ROOT}/layout/common/ .
-cp -r ${ROOT}/layout/vexpress/ . #fixme: add PLATFORM to build
+cp -ra ${ROOT}/layout/common/* .
+cp -ra ${ROOT}/layout/vexpress/* . #fixme: add PLATFORM to build
 
 append
 
