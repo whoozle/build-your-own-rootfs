@@ -27,6 +27,7 @@ log "adding initial layout..."
 cp -ra ${ROOT}/layout/common/* .
 cp -ra ${ROOT}/layout/vexpress/* . #fixme: add PLATFORM to build
 
+cleanup_files
 append
 
 popd
