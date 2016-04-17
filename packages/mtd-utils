@@ -5,10 +5,12 @@ unpack $F $V
 
 pushd .build/mtd-utils-v${V}-${T}
 
-make CROSS=${CROSS_COMPILE} -j${JOBS} \
+make -j${JOBS} \
+	CROSS=${CROSS_COMPILE} \
+	BUILDDIR=. \
 	CFLAGS=-I${INSTALL_DIR}/usr/include \
 	LDFLAGS=-L${INSTALL_DIR}/usr/lib \
-	WITHOUT_LZO=1 WITHOUT_XATTR=1
+	WITHOUT_XATTR=1
 
 make install DESTDIR=${INSTALL_DIR}
 popd
