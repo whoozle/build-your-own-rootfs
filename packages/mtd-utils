@@ -1,11 +1,11 @@
 #!/bin/sh
 
 V=1.5.2
-T=ea3c6f0
-F=$(download http://mtd/mtd-utils-${V}.tar.gz) #fixme: http://git.infradead.org/mtd-utils.git/snapshot/vXXXX
-unpack $F $V
+T=aea3641
+F=$(download http://git.infradead.org/mtd-utils.git/snapshot/aea36417067dade75192bafa03af70b6eb2677b1.tar.gz)
+unpack $F mtd-utils-${T}
 
-pushd .build/mtd-utils-v${V}-${T}
+pushd .build/mtd-utils-${T}
 
 make -j${JOBS} \
 	CROSS=${CROSS_COMPILE} \

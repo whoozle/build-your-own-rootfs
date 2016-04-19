@@ -1,6 +1,6 @@
 V=2.6.3
 F=$(download http://download.savannah.gnu.org/releases/freetype/freetype-${V}.tar.bz2)
-unpack $F $V
+unpack $F freetype-$V
 
 pushd .build/freetype-${V}
 

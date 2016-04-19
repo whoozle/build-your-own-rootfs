@@ -1,6 +1,6 @@
 V=2.09
 F=$(download http://www.oberhumer.com/opensource/lzo/download/lzo-${V}.tar.gz)
-unpack $F $V
+unpack $F lzo-$V
 
 pushd .build/lzo-${V}
 ./configure --prefix=/usr --host=${HOST} \

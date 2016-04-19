@@ -1,6 +1,6 @@
 V=1.42.13
 F=$(download https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v${V}/e2fsprogs-${V}.tar.gz)
-unpack $F $V
+unpack $F e2fsprogs-$V
 
 pushd .build/e2fsprogs-${V}
 
