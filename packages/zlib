@@ -1,6 +1,6 @@
 V=1.2.8
 F=$(download http://zlib.net/zlib-${V}.tar.xz)
-unpack $F $V
+unpack $F zlib-$V
 
 pushd .build/zlib-${V}
 CC=${CROSS_COMPILE}gcc TARGETMACH=${HOST} CROSS=${CROSS_COMPILE} ./configure --prefix=/usr
