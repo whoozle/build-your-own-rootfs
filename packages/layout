@@ -4,7 +4,7 @@ PACKAGE=layout
 
 ROOT=`pwd`
 log "preparing layout..."
-SYSROOT=$(arm-unknown-linux-gnueabi-gcc --print-sysroot)
+SYSROOT=$(${CROSS_COMPILE}gcc --print-sysroot)
 if [ "x$SYSROOT" = "x" ]; then echo "NO GCC SYSROOT, IMAGE WILL NOT WORK"; exit 1; fi
 
 rm -rf .build/layout
