@@ -5,13 +5,21 @@ PACKAGE=layout
 ROOT=`pwd`
 log "preparing layout..."
 SYSROOT=$(${CROSS_COMPILE}gcc --print-sysroot)
-if [ "x$SYSROOT" = "x" -o "x$SYSROOT" = "x/" ]; then echo "NO GCC SYSROOT, IMAGE WILL NOT WORK"; exit 1; fi
+if [ "x$SYSROOT" = "x" -o "x$SYSROOT" = "x/" ]; then
+	SYSROOT=/usr/${HOST}
+	echo "no sysroot, trying $SYSROOT"
+fi
+
+if [ ! -d $SYSROOT ]; then
+	echo "NO GCC SYSROOT, IMAGE WILL NOT WORK"
+	exit 1
+fi
 
 rm -rf .build/layout
 mkdir -p .build/layout
 pushd .build/layout
 
-log "copying sysroot data..."
+log "copying sysroot data from $SYSROOT..."
 cp -ra $SYSROOT/* .
 
 mkdir dev 2>/dev/null
