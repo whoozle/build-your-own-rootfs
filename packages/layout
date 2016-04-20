@@ -5,7 +5,7 @@ PACKAGE=layout
 ROOT=`pwd`
 log "preparing layout..."
 SYSROOT=$(${CROSS_COMPILE}gcc --print-sysroot)
-if [ "x$SYSROOT" = "x" ]; then echo "NO GCC SYSROOT, IMAGE WILL NOT WORK"; exit 1; fi
+if [ "x$SYSROOT" = "x" -o "x$SYSROOT" = "x/" ]; then echo "NO GCC SYSROOT, IMAGE WILL NOT WORK"; exit 1; fi
 
 rm -rf .build/layout
 mkdir -p .build/layout
