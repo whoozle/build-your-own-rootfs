@@ -4,13 +4,13 @@ V=2.4
 F=$(download http://w1.fi/releases/wpa_supplicant-${V}.tar.gz)
 unpack $F wpa_supplicant-${V}
 
-pushd .build/wpa_supplicant-${V}/wpa_supplicant
+try pushd .build/wpa_supplicant-${V}/wpa_supplicant
 echo "CFLAGS += -I${INSTALL_DIR}/usr/include" > .config
 echo "LIBS += -L${INSTALL_DIR}/usr/lib" >> .config
 echo "LIBS_p += -L${INSTALL_DIR}/usr/lib -ldl" >> .config
 echo "export LIBDIR=/usr/lib" >> .config
 echo "export BINDIR=/usr/bin" >> .config
 cat defconfig >> .config
-make -j${JOBS} CC=${CROSS_COMPILE}gcc
-make install DESTDIR=${INSTALL_DIR}
+try make -j${JOBS} CC=${CROSS_COMPILE}gcc
+try make install DESTDIR=${INSTALL_DIR}
 popd

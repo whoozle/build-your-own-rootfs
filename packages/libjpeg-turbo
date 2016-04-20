@@ -2,9 +2,9 @@ V=1.4.2
 F=$(download http://downloads.sourceforge.net/project/libjpeg-turbo/${V}/libjpeg-turbo-${V}.tar.gz)
 unpack $F libjpeg-turbo-$V
 
-pushd .build/libjpeg-turbo-${V}
+try pushd .build/libjpeg-turbo-${V}
 
-./configure --prefix=/usr --host=${HOST} \
+try ./configure --prefix=/usr --host=${HOST} \
 	CC=${CROSS_COMPILE}gcc \
 	AR=${CROSS_COMPILE}ar \
 	STRIP=${CROSS_COMPILE}strip \
@@ -12,7 +12,7 @@ pushd .build/libjpeg-turbo-${V}
 	CPPFLAGS=-I${INSTALL_DIR}/usr/include \
 	LDFLAGS=-L${INSTALL_DIR}/usr/lib
 
-make -j${JOBS}
+try make -j${JOBS}
 
-make install DESTDIR=${INSTALL_DIR}
+try make install DESTDIR=${INSTALL_DIR}
 popd

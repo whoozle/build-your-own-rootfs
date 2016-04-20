@@ -2,9 +2,9 @@ V=1.42.13
 F=$(download https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v${V}/e2fsprogs-${V}.tar.gz)
 unpack $F e2fsprogs-$V
 
-pushd .build/e2fsprogs-${V}
+try pushd .build/e2fsprogs-${V}
 
-./configure --prefix=/usr --host=${HOST} \
+try ./configure --prefix=/usr --host=${HOST} \
 	CC=${CROSS_COMPILE}gcc \
 	AR=${CROSS_COMPILE}ar \
 	STRIP=${CROSS_COMPILE}strip \
@@ -12,7 +12,7 @@ pushd .build/e2fsprogs-${V}
 	CPPFLAGS=-I${INSTALL_DIR}/usr/include \
 	LDFLAGS=-L${INSTALL_DIR}/usr/lib
 
-make -j${JOBS}
-make install DESTDIR=${INSTALL_DIR}
-make -C lib/uuid install DESTDIR=${INSTALL_DIR}
+try make -j${JOBS}
+try make install DESTDIR=${INSTALL_DIR}
+try make -C lib/uuid install DESTDIR=${INSTALL_DIR}
 popd

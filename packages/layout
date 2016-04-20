@@ -17,10 +17,10 @@ fi
 
 rm -rf .build/layout
 mkdir -p .build/layout
-pushd .build/layout
+try pushd .build/layout
 
 log "copying sysroot data from $SYSROOT..."
-cp -ra $SYSROOT/* .
+try cp -ra $SYSROOT/* .
 
 mkdir dev 2>/dev/null
 mkdir etc 2>/dev/null

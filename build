@@ -45,6 +45,15 @@ function download {
     echo $DST
 }
 
+function try {
+    $*
+    R=$?
+    if [ $R -ne 0 ]; then
+        echo "command $* failed"
+        exit 1
+    fi
+}
+
 function unpack {
     SRC=$1
     DST=$2
@@ -93,8 +102,9 @@ rm -f $ROOTFS
 
 . packages/busybox
 
-. packages/zlib
+. packages/bzip2
 . packages/lzo
+. packages/zlib
 
 . packages/e2fsprogs
 . packages/mtd-utils

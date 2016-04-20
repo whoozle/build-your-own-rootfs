@@ -1,9 +1,9 @@
 V=1.2.8
 F=$(download http://zlib.net/zlib-${V}.tar.xz)
-unpack $F zlib-$V
+unpack $F zlib-${V}
 
-pushd .build/zlib-${V}
-CC=${CROSS_COMPILE}gcc TARGETMACH=${HOST} CROSS=${CROSS_COMPILE} ./configure --prefix=/usr
-make -j${JOBS}
-make install DESTDIR=${INSTALL_DIR}
+try pushd .build/zlib-${V}
+CC=${CROSS_COMPILE}gcc TARGETMACH=${HOST} CROSS=${CROSS_COMPILE} try ./configure --prefix=/usr
+try make -j${JOBS}
+try make install DESTDIR=${INSTALL_DIR}
 popd

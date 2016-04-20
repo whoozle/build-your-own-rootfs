@@ -4,9 +4,9 @@ V=1.1.4
 F=$(download http://www.infradead.org/~tgr/libnl/files/libnl-${V}.tar.gz)
 unpack $F libnl-${V}
 
-pushd .build/libnl-${V}
-CC=${CROSS_COMPILE}gcc ./configure --host=${HOST} --prefix=/usr
-make -j${JOBS}
-mkdir .install
-make install DESTDIR=${INSTALL_DIR}
+try pushd .build/libnl-${V}
+try ./configure --host=${HOST} --prefix=/usr CC=${CROSS_COMPILE}gcc 
+try make -j${JOBS}
+try mkdir .install
+try make install DESTDIR=${INSTALL_DIR}
 popd

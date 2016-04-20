@@ -5,14 +5,15 @@ T=aea3641
 F=$(download http://git.infradead.org/mtd-utils.git/snapshot/aea36417067dade75192bafa03af70b6eb2677b1.tar.gz)
 unpack $F mtd-utils-${T}
 
-pushd .build/mtd-utils-${T}
+try pushd .build/mtd-utils-${T}
 
-make -j${JOBS} \
+WITHOUT_XATTR=1 \
 	CROSS=${CROSS_COMPILE} \
 	BUILDDIR=. \
+	WITHOUT_XATTR=1 \
 	CFLAGS=-I${INSTALL_DIR}/usr/include \
 	LDFLAGS=-L${INSTALL_DIR}/usr/lib \
-	WITHOUT_XATTR=1
+	try make -j${JOBS}
 
-make install DESTDIR=${INSTALL_DIR}
+try make install DESTDIR=${INSTALL_DIR}
 popd
