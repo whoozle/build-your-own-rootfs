@@ -4,7 +4,7 @@ unpack $F freetype-$V
 
 try pushd .build/freetype-${V}
 
-try ./configure CC=${CROSS_COMPILE}gcc --prefix=/usr --host=${HOST} --with-png=no
+try ./configure CC=${CROSS_COMPILE}gcc --prefix=/usr --host=${HOST} --with-png=no --disable-shared --enable-static
 
 try make -j${JOBS}
 try make install DESTDIR=${INSTALL_DIR}
