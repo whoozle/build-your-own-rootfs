@@ -7,6 +7,5 @@ unpack $F libnl-${V}
 try pushd .build/libnl-${V}
 try ./configure --host=${HOST} --prefix=/usr CC=${CROSS_COMPILE}gcc 
 try make -j${JOBS}
-try mkdir .install
 try make install DESTDIR=${INSTALL_DIR}
 popd
