@@ -1,4 +1,5 @@
 .sources
 .build
 .install
+.rootfs
 root.tar*
