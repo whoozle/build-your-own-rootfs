@@ -72,20 +72,6 @@ function append {
     tar --append --file=$ROOTFS --owner=0 --group=0 .
 }
 
-function cleanup_files {
-    rm -rf usr/include
-    rm -rf usr/lib/include
-    rm -rf usr/share/aclocal
-    rm -rf usr/share/doc
-    rm -rf usr/share/i18n
-    rm -rf usr/share/info
-    rm -rf usr/share/man
-    rm -rf usr/ssl
-    rm -rf var/db
-    rm -rf etc/portage
-    rm -rf sys-include
-}
-
 JOBS=8
 ROOTFS=`pwd`/root.tar
 
@@ -119,12 +105,10 @@ rm -f $ROOTFS
 #. packages/wpa-supplicant #need kernel headers
 
 pushd .build/layout
-cleanup_files
 append
 popd
 
 pushd .install
-cleanup_files
 append
 popd
 
