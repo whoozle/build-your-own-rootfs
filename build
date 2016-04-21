@@ -112,4 +112,11 @@ pushd .install
 append
 popd
 
+rm -rf .rootfs
+mkdir .rootfs
+
+tar xf root.tar -C .rootfs \
+./bin ./data ./dev ./etc ./lib ./linuxrc ./media ./proc ./sbin ./sys \
+./tmp ./usr/bin ./usr/lib ./var
+
 echo OK
