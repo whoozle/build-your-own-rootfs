@@ -20,7 +20,9 @@ mkdir -p .build/layout
 try pushd .build/layout
 
 log "copying sysroot data from $SYSROOT..."
-try cp -ra $SYSROOT/* .
+try pushd $SYSROOT
+append
+popd
 
 mkdir dev 2>/dev/null
 mkdir etc 2>/dev/null
