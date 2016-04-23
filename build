@@ -77,11 +77,12 @@ ROOTFS=`pwd`/root.tar
 
 rm -rf .install
 mkdir .install
+
 export INSTALL_DIR=`pwd`/.install
 export BUILD_DIR=`pwd`/.build
 
-export CC=${HOST}gcc
-export CXX=${HOST}g++
+export CC=${CROSS_COMPILE}gcc
+export CXX=${CROSS_COMPILE}g++
 
 rm -f $ROOTFS
 
