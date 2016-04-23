@@ -1,0 +1,46 @@
+diff --git a/build/toolchain.gypi b/build/toolchain.gypi
+index ac10065..8574b67 100644
+--- a/build/toolchain.gypi
++++ b/build/toolchain.gypi
+@@ -802,10 +802,6 @@
+           }],
+           ['_toolset=="target"', {
+             'conditions': [
+-              ['target_cxx_is_biarch==1 and nacl_target_arch!="nacl_x64"', {
+-                'cflags': [ '-m32' ],
+-                'ldflags': [ '-m32' ],
+-              }],
+               # Enable feedback-directed optimisation when building in android.
+               [ 'android_webview_build == 1', {
+                 'aosp_build_settings': {
+diff --git a/src/base/atomicops_internals_arm_gcc.h b/src/base/atomicops_internals_arm_gcc.h
+index 069b1ff..d8ae4ca 100644
+--- a/src/base/atomicops_internals_arm_gcc.h
++++ b/src/base/atomicops_internals_arm_gcc.h
+@@ -155,7 +155,8 @@ inline Atomic32 NoBarrier_AtomicExchange(volatile Atomic32* ptr,
+ }
+ 
+ // This tests against any known ARMv5 variant.
+-#elif defined(__ARM_ARCH_5__) || defined(__ARM_ARCH_5T__) || \
++#elif defined(__ARM_ARCH_4__) || defined(__ARM_ARCH_4T__) || \
++      defined(__ARM_ARCH_5__) || defined(__ARM_ARCH_5T__) || \
+       defined(__ARM_ARCH_5TE__) || defined(__ARM_ARCH_5TEJ__)
+ 
+ // The kernel also provides a helper function to perform an atomic
+diff --git a/src/base/platform/platform-posix.cc b/src/base/platform/platform-posix.cc
+index c2fa26a..a9c1a7e 100644
+--- a/src/base/platform/platform-posix.cc
++++ b/src/base/platform/platform-posix.cc
+@@ -218,7 +218,11 @@ void OS::Abort() {
+ 
+ void OS::DebugBreak() {
+ #if V8_HOST_ARCH_ARM
+-  asm("bkpt 0");
++#  if !defined(__ARM_ARCH_4__) && !defined(__ARM_ARCH_4T__)
++    asm("bkpt 0");
++#  else
++    __builtin_trap();
++#  endif
+ #elif V8_HOST_ARCH_ARM64
+   asm("brk 0");
+ #elif V8_HOST_ARCH_MIPS
