@@ -15,6 +15,12 @@ if [ ! -d $SYSROOT ]; then
 	exit 1
 fi
 
+GCCROOT=$(dirname $(${CROSS_COMPILE}gcc -print-libgcc-file-name))
+if [ -d $GCCROOT ]; then
+	mkdir -p ${INSTALL_DIR}/lib 2> /dev/null
+	cp -a $GCCROOT/*.so* ${INSTALL_DIR}/lib
+fi
+
 rm -rf .build/layout
 mkdir -p .build/layout
 try pushd .build/layout
