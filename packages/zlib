@@ -3,7 +3,7 @@ F=$(download http://zlib.net/zlib-${V}.tar.xz)
 unpack $F zlib-${V}
 
 try pushd .build/zlib-${V}
-CC=${CROSS_COMPILE}gcc TARGETMACH=${HOST} CROSS=${CROSS_COMPILE} try ./configure --prefix=/usr
+TARGETMACH=${HOST} CROSS=${CROSS_COMPILE} try ./configure --prefix=/usr
 try make -j${JOBS}
 try make install DESTDIR=${INSTALL_DIR}
 popd

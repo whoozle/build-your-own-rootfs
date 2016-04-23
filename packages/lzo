@@ -4,10 +4,6 @@ unpack $F lzo-$V
 
 pushd .build/lzo-${V}
 try ./configure --prefix=/usr --host=${HOST} \
-	CC=${CROSS_COMPILE}gcc \
-	AR=${CROSS_COMPILE}ar \
-	STRIP=${CROSS_COMPILE}strip \
-	RANLIB=${CROSS_COMPILE}ranlib \
 	CPPFLAGS=-I${INSTALL_DIR}/usr/include \
 	LDFLAGS=-L${INSTALL_DIR}/usr/lib
 

@@ -83,6 +83,9 @@ export BUILD_DIR=`pwd`/.build
 
 export CC=${CROSS_COMPILE}gcc
 export CXX=${CROSS_COMPILE}g++
+export AR=${CROSS_COMPILE}ar
+export STRIP=${CROSS_COMPILE}strip
+export RANLIB=${CROSS_COMPILE}ranlib
 
 rm -f $ROOTFS
 

@@ -7,6 +7,7 @@ unpack $F openssl-$V
 try pushd .build/openssl-${V}
 
 try ./Configure --prefix=/usr linux-generic32 os/compiler:${CROSS_COMPILE}
+try make -j${JOBS} depend
 try make -j${JOBS} CC=${CROSS_COMPILE}gcc
 try make install INSTALL_PREFIX=${INSTALL_DIR}
 popd

@@ -4,5 +4,6 @@ unpack $F bzip2-${V}
 
 try pushd .build/bzip2-${V}
 
-try make install PREFIX=${INSTALL_DIR}/usr -j${JOBS} CC=${CROSS_COMPILE}gcc AR=${CROSS_COMPILE}ar RANLIB=${CROSS_COMPILE}ranlib
+try make install PREFIX=${INSTALL_DIR}/usr -j${JOBS}
+
 popd
