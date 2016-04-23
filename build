@@ -108,6 +108,8 @@ rm -f $ROOTFS
 . packages/libnl
 #. packages/wpa-supplicant #need kernel headers
 
+#. packages/v8
+
 pushd .build/layout
 append
 popd
