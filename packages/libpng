@@ -1,4 +1,4 @@
-V=1.6.21
+V=1.6.28
 F=$(download ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/libpng-${V}.tar.xz)
 unpack $F libpng-$V
 
