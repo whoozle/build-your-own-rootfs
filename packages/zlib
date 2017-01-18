@@ -1,4 +1,4 @@
-V=1.2.10
+V=1.2.11
 F=$(download http://zlib.net/zlib-${V}.tar.xz)
 unpack $F zlib-${V}
 
