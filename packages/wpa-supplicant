@@ -1,6 +1,6 @@
 #!/bin/sh
 
-V=2.4
+V=2.6
 F=$(download http://w1.fi/releases/wpa_supplicant-${V}.tar.gz)
 unpack $F wpa_supplicant-${V}
 

@@ -1,4 +1,4 @@
-V=2.09
+V=2.10
 F=$(download http://www.oberhumer.com/opensource/lzo/download/lzo-${V}.tar.gz)
 unpack $F lzo-$V
 
