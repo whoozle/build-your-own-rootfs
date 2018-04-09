@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+from argparse import ArgumentParser
+from byo import escape
+from byo.toolchain import find_in_path as find_toolchains_in_path
+from byo.builder import build
+import sys
+import logging
+
+parser = ArgumentParser("build tool for byo rootfs project")
+parser.add_argument('prefix', help = 'cross-compile toolchain prefix, e.g. armv7-linux-gnueabi-', nargs='?')
+parser.add_argument('target', help = 'target', default='system-image', nargs='?')
+parser.add_argument('-l', '--list', help = 'list toolchains available in PATH', action='store_true')
+parser.add_argument('-v', '--verbose', help = 'be verbose', action='store_true')
+args = parser.parse_args()
+
+logging.basicConfig(level = logging.DEBUG if args.verbose else logging.INFO)
+
+if args.list:
+	print("possible prefixes listed below:")
+	for path, prefix in find_toolchains_in_path():
+		print('\t%s %s' %(sys.argv[0], escape(prefix)))
+
+if args.prefix is not None:
+	build(args.prefix, args.target)

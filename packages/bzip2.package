@@ -1,0 +1,6 @@
+Version: 1.0.6
+Fetch: http://www.bzip.org/${V}/bzip2-{Version}.tar.gz
+
+try make install PREFIX=${INSTALL_DIR}/usr -j${JOBS}
+
+popd

@@ -1,0 +1,9 @@
+Version: 1.25.1
+Fetch: http://www.busybox.net/downloads/busybox-{Version}.tar.bz2
+
+Build:
+ - make defconfig
+ - make CROSS_COMPILE={CrossCompilePrefix}
+ - make CROSS_COMPILE={CrossCompilePrefix} install
+
+Install:
