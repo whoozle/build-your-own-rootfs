@@ -11,9 +11,26 @@ class Metadata(object):
 	def __init__(self, data):
 		self.data = data
 
+	def __format(self, name):
+		url = self.data.get(name, None)
+		if url is not None:
+			return url.format(*[], **self.data)
+
 	@property
 	def depends(self):
-		return self.data.get('Depends on', [])
+		return self.data.get('Depends-On', [])
+
+	@property
+	def public_key(self):
+		return self.data.get('Public-Key', None)
+
+	@property
+	def signature(self):
+		return self.__format('Signature')
+
+	@property
+	def fetch_url(self):
+		return self.__format('Fetch')
 
 def read_metadata(name):
 	if name in cache:

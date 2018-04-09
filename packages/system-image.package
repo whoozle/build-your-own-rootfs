@@ -1,2 +1,2 @@
-Depends on:
+Depends-On:
  - busybox
