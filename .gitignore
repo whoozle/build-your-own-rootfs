@@ -3,3 +3,5 @@
 .install
 .rootfs
 root.tar*
+__pycache__
+*.py[co]
