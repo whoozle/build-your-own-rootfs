@@ -5,4 +5,4 @@
 root.tar*
 __pycache__
 *.py[co]
-build/
+build.*/
