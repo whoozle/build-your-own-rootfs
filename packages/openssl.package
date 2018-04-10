@@ -2,7 +2,6 @@ Version: 1.1.0h
 Fetch: https://www.openssl.org/source/openssl-{Version}.tar.gz
 
 Build:
-# - ./Configure --prefix=/usr linux-generic32 os/compiler:{CrossCompilePrefix}
- - MACHINE={Host} ./config
+ - MACHINE={Host} ./config --prefix=/usr --cross-compile-prefix={CrossCompilePrefix}
  - make depend
- - make install CC={CCompiler} AS={Assembler} DESTDIR=${InstallDirectory}
+ - make install
