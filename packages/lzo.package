@@ -1,0 +1,7 @@
+Version: '2.10'
+Fetch: https://www.oberhumer.com/opensource/lzo/download/lzo-{Version}.tar.gz
+
+Build:
+ - ./configure --prefix=/usr --host={Host} CPPFLAGS=-I{InstallDirectory}/usr/include LDFLAGS=-L{InstallDirectory}/usr/lib
+ - make -j{Jobs}
+ - make install DESTDIR={InstallDirectory}
