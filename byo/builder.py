@@ -50,7 +50,7 @@ class Builder(object):
 
 	def unpack(self):
 		logger.info('unpacking...')
-		self.work_dir = self.env.create_dir('tmp', self.target)
+		self.work_dir = self.env.create_dir(self.target, 'work')
 		self.env.exec(self.work_dir, 'tar', '--strip=1', '-xf', self.archive)
 
 	def build(self):
