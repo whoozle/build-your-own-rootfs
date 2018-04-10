@@ -6,6 +6,7 @@ import shutil
 import gpg
 import os.path
 import byo
+from byo.process import Environment
 
 logger = logging.getLogger(__name__)
 
@@ -17,15 +18,13 @@ class Builder(object):
 		self.metadata = byo.package.read_metadata(target)
 		self.gpg = gpg.Context()
 		self.root = os.path.join(byo.root, 'build.' + prefix.strip('-'))
-		self.downloads = os.path.join(self.root, 'downloads')
 		self.archive = None
-		try:
-			os.makedirs(self.downloads)
-		except:
-			pass
+		self.work_dir = None
+		self.env = Environment(self.root, target)
 
 	def __fetch_cache(self, url, fname):
-		cached = os.path.join(self.downloads, fname)
+		downloads = self.env.create_dir('downloads')
+		cached = os.path.join(downloads, fname)
 		if os.path.exists(cached):
 			return cached
 
@@ -46,10 +45,11 @@ class Builder(object):
 
 	def unpack(self):
 		logger.info('unpacking...')
-	def configure(self):
-		logger.info('configuring...')
-	def compile(self):
-		logger.info('compiling...')
+		self.work_dir = self.env.create_dir('tmp', self.target)
+		self.env.exec('tar', '--strip=1', '-C', self.work_dir, '-xvf', self.archive)
+
+	def build(self):
+		logger.info('building...')
 	def install(self):
 		logger.info('installing...')
 	def package(self):
@@ -64,8 +64,7 @@ def _build(prefix, target, options):
 	try:
 		fname = builder.fetch()
 		builder.unpack()
-		builder.configure()
-		builder.compile()
+		builder.build()
 		builder.install()
 		builder.package()
 	except:
