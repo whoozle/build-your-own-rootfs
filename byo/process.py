@@ -25,14 +25,27 @@ class Environment(object):
 		return path
 
 	def exec(self, cwd, *args, **kw):
-		args = list(args)
-		if args[0] == 'make' or args[0] == 'ninja':
-			args.insert(1, '-j%d' %cpu_count)
+		env = os.environ.copy()
 
+		mod_args = []
+		can_be_var = True
+		for arg in args:
+			if can_be_var and '=' in arg: #var
+				pos = arg.index('=')
+				key, value = arg[:pos], arg[pos + 1:]
+				logger.debug('setting %s to %s' %(key, value))
+				env[key] = value
+			else:
+				can_be_var = False
+				mod_args.append(arg)
+				if arg == 'ninja' or arg == 'make':
+					mod_args.append('-j%d' %cpu_count)
+
+		args = mod_args
 		cmd = " ".join(args)
 		logger.debug("running %s", cmd)
 		with open(self.log_path, "at") as log:
 			log.write("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nrunning %s\n" %cmd)
-			completed = subprocess.run(args, stderr = subprocess.STDOUT, stdout = log, bufsize = 256 * 1024, cwd = cwd)
+			completed = subprocess.run(args, stderr = subprocess.STDOUT, stdout = log, bufsize = 256 * 1024, cwd = cwd, env = env)
 			if completed.returncode != 0:
 				raise Exception("command %s failed" %cmd)
