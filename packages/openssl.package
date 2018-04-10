@@ -4,4 +4,4 @@ Fetch: https://www.openssl.org/source/openssl-{Version}.tar.gz
 Build:
  - MACHINE={Host} ./config --prefix=/usr --cross-compile-prefix={CrossCompilePrefix}
  - make depend
- - make install
+ - make install DESTDIR={InstallDirectory}
