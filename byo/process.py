@@ -26,4 +26,6 @@ class Environment(object):
 		logger.debug("running %s", cmd)
 		with open(self.log_path, "at") as log:
 			log.write("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nrunning %s\n" %cmd)
-			pipe = subprocess.run(args, stderr = subprocess.STDOUT, stdout = log, bufsize = 256 * 1024, cwd = cwd)
+			completed = subprocess.run(args, stderr = subprocess.STDOUT, stdout = log, bufsize = 256 * 1024, cwd = cwd)
+			if completed.returncode != 0:
+				raise Exception("command %s failed" %cmd)
