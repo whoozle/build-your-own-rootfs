@@ -1,0 +1,8 @@
+Version: 1.44.1
+Fetch: https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v{Version}/e2fsprogs-{Version}.tar.xz
+
+Build:
+ - ./configure --prefix=/usr --host={Host} CPPFLAGS=-I{InstallDirectory}/usr/include LDFLAGS=-L{InstallDirectory}/usr/lib
+ - make
+ - make install DESTDIR={InstallDirectory}
+ - make -C lib/uuid install DESTDIR={InstallDirectory}

@@ -1,0 +1,10 @@
+Version: 1.1.0h
+Fetch: https://www.openssl.org/source/openssl-{Version}.tar.gz
+
+Build:
+ - ./Configure --prefix=/usr linux-generic32
+# os/compiler:{CrossCompilePrefix}
+# - MACHINE={Host} ./config
+ - make depend
+ - make CC={CrossCompilePrefix}gcc AR={CrossCompilePrefix}gcc-ar
+ - make install INSTALL_PREFIX=${InstallDirectory}
