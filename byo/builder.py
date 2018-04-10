@@ -27,6 +27,7 @@ class Builder(object):
 	def __update_vars(self, vars):
 		vars['CrossCompilePrefix'] = self.prefix
 		vars['Host'] = self.prefix.rstrip('-')
+		vars['InstallDirectory'] = self.env.create_dir(self.target, 'root')
 
 	def __fetch_cache(self, url, fname):
 		downloads = self.env.create_dir('downloads')
