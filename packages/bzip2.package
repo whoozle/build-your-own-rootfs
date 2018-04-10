@@ -2,4 +2,4 @@ Version: 1.0.6
 Fetch: http://www.bzip.org/{Version}/bzip2-{Version}.tar.gz
 
 Build:
- - make install CC={CrossCompilePrefix}gcc PREFIX={InstallDirectory}/usr
+ - make -j{Jobs} install CC={CrossCompilePrefix}gcc PREFIX={InstallDirectory}/usr

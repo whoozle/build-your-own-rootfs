@@ -3,6 +3,6 @@ Fetch: https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v{Version}
 
 Build:
  - ./configure --prefix=/usr --host={Host} CPPFLAGS=-I{InstallDirectory}/usr/include LDFLAGS=-L{InstallDirectory}/usr/lib
- - make
+ - make -j{Jobs}
  - make install DESTDIR={InstallDirectory}
- - make -C lib/uuid install DESTDIR={InstallDirectory}
+ - make -j{Jobs} -C lib/uuid install DESTDIR={InstallDirectory}

@@ -8,6 +8,9 @@ import gpg
 import os.path
 import byo
 from byo.process import Environment
+import multiprocessing
+
+cpu_count = multiprocessing.cpu_count()
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +28,7 @@ class Builder(object):
 		self.__update_vars(self.metadata.data)
 
 	def __update_vars(self, vars):
+		vars['Jobs'] = cpu_count
 		vars['CrossCompilePrefix'] = self.prefix
 		vars['Host'] = self.prefix.rstrip('-')
 		vars['InstallDirectory'] = self.env.create_dir('root')

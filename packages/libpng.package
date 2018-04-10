@@ -4,5 +4,5 @@ Signature: ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/libpng-{Versi
 
 Build:
  - ./configure --prefix=/usr --host={Host} CPPFLAGS=-I{InstallDirectory}/usr/include LDFLAGS=-L{InstallDirectory}/usr/lib
- - make
+ - make -j{Jobs}
  - make install DESTDIR={InstallDirectory}

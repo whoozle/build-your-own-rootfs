@@ -3,5 +3,5 @@ Fetch: https://zlib.net/zlib-{Version}.tar.gz
 
 Build:
  - CROSS_PREFIX={CrossCompilePrefix} ./configure --prefix=/usr
- - make
+ - make -j{Jobs}
  - make install DESTDIR={InstallDirectory}

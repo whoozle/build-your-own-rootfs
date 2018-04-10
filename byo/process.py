@@ -1,9 +1,6 @@
 import logging
 import os
 import subprocess
-import multiprocessing
-
-cpu_count = multiprocessing.cpu_count()
 
 logger = logging.getLogger(__name__)
 
@@ -38,8 +35,6 @@ class Environment(object):
 			else:
 				can_be_var = False
 				mod_args.append(arg)
-				if arg == 'ninja' or arg == 'make':
-					mod_args.append('-j%d' %cpu_count)
 
 		args = mod_args
 		cmd = " ".join(args)

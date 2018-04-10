@@ -5,8 +5,8 @@ Public-Key: https://busybox.net/~vda/vda_pubkey.gpg
 
 Build:
  - make defconfig
- - make CROSS_COMPILE={CrossCompilePrefix}
- - make CROSS_COMPILE={CrossCompilePrefix} install
+ - make -j{Jobs} CROSS_COMPILE={CrossCompilePrefix}
+ - make -j{Jobs} CROSS_COMPILE={CrossCompilePrefix} install
 
 InstallDirectory: _install
 
