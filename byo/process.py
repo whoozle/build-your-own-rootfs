@@ -1,6 +1,9 @@
 import logging
 import os
 import subprocess
+import multiprocessing
+
+cpu_count = multiprocessing.cpu_count()
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +25,10 @@ class Environment(object):
 		return path
 
 	def exec(self, cwd, *args, **kw):
+		args = list(args)
+		if args[0] == 'make' or args[0] == 'ninja':
+			args.insert(1, '-j%d' %cpu_count)
+
 		cmd = " ".join(args)
 		logger.debug("running %s", cmd)
 		with open(self.log_path, "at") as log:
