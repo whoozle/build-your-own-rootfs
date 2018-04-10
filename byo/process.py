@@ -21,9 +21,9 @@ class Environment(object):
 			pass
 		return path
 
-	def exec(self, *args, **kw):
+	def exec(self, cwd, *args, **kw):
 		cmd = " ".join(args)
 		logger.debug("running %s", cmd)
 		with open(self.log_path, "at") as log:
-			log.write("running %s\n" %cmd)
-			pipe = subprocess.run(args, stderr = subprocess.STDOUT, stdout = log, bufsize = 256 * 1024)
+			log.write("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nrunning %s\n" %cmd)
+			pipe = subprocess.run(args, stderr = subprocess.STDOUT, stdout = log, bufsize = 256 * 1024, cwd = cwd)

@@ -51,13 +51,13 @@ class Builder(object):
 	def unpack(self):
 		logger.info('unpacking...')
 		self.work_dir = self.env.create_dir('tmp', self.target)
-		self.env.exec('tar', '--strip=1', '-C', self.work_dir, '-xf', self.archive)
+		self.env.exec(self.work_dir, 'tar', '--strip=1', '-xf', self.archive)
 
 	def build(self):
 		logger.info('building...')
 		for cmd in self.metadata.build:
 			cmd = shlex.split(cmd)
-			self.env.exec(*cmd)
+			self.env.exec(self.work_dir, *cmd)
 
 	def install(self):
 		logger.info('installing...')
