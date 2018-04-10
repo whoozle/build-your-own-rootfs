@@ -3,6 +3,7 @@ import byo.package
 import urllib.request
 import urllib.parse
 import shutil
+import shlex
 import gpg
 import os.path
 import byo
@@ -21,6 +22,10 @@ class Builder(object):
 		self.archive = None
 		self.work_dir = None
 		self.env = Environment(self.root, target)
+		self.__update_vars(self.metadata.data)
+
+	def __update_vars(self, vars):
+		vars['CrossCompilePrefix'] = self.prefix
 
 	def __fetch_cache(self, url, fname):
 		downloads = self.env.create_dir('downloads')
@@ -46,10 +51,14 @@ class Builder(object):
 	def unpack(self):
 		logger.info('unpacking...')
 		self.work_dir = self.env.create_dir('tmp', self.target)
-		self.env.exec('tar', '--strip=1', '-C', self.work_dir, '-xvf', self.archive)
+		self.env.exec('tar', '--strip=1', '-C', self.work_dir, '-xf', self.archive)
 
 	def build(self):
 		logger.info('building...')
+		for cmd in self.metadata.build:
+			cmd = shlex.split(cmd)
+			self.env.exec(*cmd)
+
 	def install(self):
 		logger.info('installing...')
 	def package(self):

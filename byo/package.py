@@ -1,20 +1,21 @@
-import yaml
 import byo
 import logging
 import os.path
 import yaml
 
 logger = logging.getLogger(__name__)
-cache = {}
 
 class Metadata(object):
 	def __init__(self, data):
 		self.data = data
 
-	def __format(self, name):
+	def __format(self, url):
+		return url.format(*[], **self.data)
+
+	def __format_var(self, name):
 		url = self.data.get(name, None)
 		if url is not None:
-			return url.format(*[], **self.data)
+			return self.__format(url)
 
 	@property
 	def depends(self):
@@ -26,22 +27,22 @@ class Metadata(object):
 
 	@property
 	def signature(self):
-		return self.__format('Signature')
+		return self.__format_var('Signature')
 
 	@property
 	def fetch_url(self):
-		return self.__format('Fetch')
+		return self.__format_var('Fetch')
+
+	@property
+	def build(self):
+		return map(self.__format, self.data.get('Build', []))
 
 def read_metadata(name):
-	if name in cache:
-		return cache[name]
-
 	root = os.path.join(byo.root, 'packages')
 	with open(os.path.join(root, name + ".package")) as f:
 		data = yaml.load(f)
 	logger.debug('read metadata %s', name)
 	data = Metadata(data)
-	cache[name] = data
 	return data
 
 def get_package_queue(name):
