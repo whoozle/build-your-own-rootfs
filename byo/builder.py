@@ -27,7 +27,7 @@ class Builder(object):
 	def __update_vars(self, vars):
 		vars['CrossCompilePrefix'] = self.prefix
 		vars['Host'] = self.prefix.rstrip('-')
-		vars['InstallDirectory'] = self.env.create_dir(self.target, 'root')
+		vars['InstallDirectory'] = self.env.create_dir('root')
 
 	def __fetch_cache(self, url, fname):
 		downloads = self.env.create_dir('downloads')
@@ -52,7 +52,7 @@ class Builder(object):
 
 	def unpack(self):
 		logger.info('unpacking...')
-		self.work_dir = self.env.create_dir(self.target, 'work')
+		self.work_dir = self.env.create_dir('tmp', self.target, 'work')
 		self.env.exec(self.work_dir, 'tar', '--strip=1', '-xf', self.archive)
 
 	def build(self):
