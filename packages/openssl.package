@@ -5,4 +5,4 @@ Build:
 # - ./Configure --prefix=/usr linux-generic32 os/compiler:{CrossCompilePrefix}
  - MACHINE={Host} ./config
  - make depend
- - make install CC={CrossCompilePrefix}gcc AS={CrossCompilePrefix}as DESTDIR=${InstallDirectory}
+ - make install CC={CCompiler} AS={Assembler} DESTDIR=${InstallDirectory}

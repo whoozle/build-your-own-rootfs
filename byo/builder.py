@@ -32,6 +32,10 @@ class Builder(object):
 		vars['CrossCompilePrefix'] = self.prefix
 		vars['Host'] = self.prefix.rstrip('-')
 		vars['InstallDirectory'] = self.env.create_dir('root')
+		vars['CCompiler'] = self.prefix + 'gcc'
+		vars['Assembler'] = self.prefix + 'as'
+		vars['Archiver'] = self.prefix + 'ar'
+		vars['Linker'] = self.prefix + 'ld'
 
 	def __fetch_cache(self, url, fname):
 		downloads = self.env.create_dir('downloads')
