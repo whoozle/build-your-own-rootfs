@@ -2,6 +2,6 @@ Version: 1.2.11
 Fetch: https://zlib.net/zlib-{Version}.tar.gz
 
 Build:
- - TARGETMACH={Host} CROSS={CrossCompilePrefix} ./configure --prefix=/usr
+ - CROSS_PREFIX={CrossCompilePrefix} ./configure --prefix=/usr
  - make
- - make install DESTDIR=${InstallDirectory}
+ - make install DESTDIR={InstallDirectory}

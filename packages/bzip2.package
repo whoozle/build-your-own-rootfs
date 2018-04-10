@@ -1,5 +1,5 @@
 Version: 1.0.6
-Fetch: http://www.bzip.org/${V}/bzip2-{Version}.tar.gz
+Fetch: http://www.bzip.org/{Version}/bzip2-{Version}.tar.gz
 
 Build:
- - make install PREFIX=${InstallDirectory}/usr
+ - make install CC={CrossCompilePrefix}gcc PREFIX={InstallDirectory}/usr
