@@ -6,3 +6,6 @@ Build:
  - ./configure --prefix=/usr --host={Host} CPPFLAGS=-I{InstallDirectory}/usr/include LDFLAGS=-L{InstallDirectory}/usr/lib
  - make -j{Jobs}
  - make install DESTDIR={InstallDirectory}
+
+Depends-On:
+ - zlib
