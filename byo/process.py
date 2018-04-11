@@ -9,7 +9,7 @@ class Environment(object):
 	def __init__(self, root, name):
 		self.root = root
 		self.name = name
-		self.log_dir = self.create_dir('tmp', name, "log")
+		self.log_dir = self.create_dir('tmp', name)
 		self.log_path = os.path.join(self.log_dir, "build.log")
 		with open(self.log_path, "wt") as log:
 			pass
