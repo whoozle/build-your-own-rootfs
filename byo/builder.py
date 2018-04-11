@@ -18,9 +18,6 @@ logger = logging.getLogger(__name__)
 
 
 class Builder(object):
-	CATEGORY_DEVEL = 1
-	CATEGORY_ROOTFS = 2
-
 	def __init__(self, prefix, target, options):
 		self.prefix = prefix
 		self.target = target
@@ -127,6 +124,7 @@ class Builder(object):
 		if path.startswith('usr/include') \
 			or path.startswith('usr/man') \
 			or path.startswith('usr/share/man') \
+			or path.startswith('usr/lib/pkgconfig') \
 			or (path.startswith('usr/bin') and path.endswith('-config')) \
 			or path.endswith('.a'):
 			return FileFlags.CATEGORY_DEVEL
@@ -156,13 +154,13 @@ class Builder(object):
 			for file in files:
 				fullname = os.path.join(dirname, file)
 				cat = self.__get_category(fullname)
-				logger.debug("installing %s", fullname)
+				logger.debug("installing %s (%s)", fullname, cat)
 
-				#install everything in rootfs
+				#install everything in dev root
 				dst_dir = os.path.join(self.root_dev_dir, dirname)
 				self.__link(dst_dir, src_dir, file)
 				#runtime files go to rootfs
-				if cat == Builder.CATEGORY_ROOTFS:
+				if cat == FileFlags.CATEGORY_ROOTFS:
 					dst_dir = os.path.join(self.root_dir, dirname)
 					self.__link(dst_dir, src_dir, file)
 
