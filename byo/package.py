@@ -5,9 +5,9 @@ import yaml
 
 logger = logging.getLogger(__name__)
 
-from enum import Enum
+from enum import IntEnum
 
-class State(Enum):
+class State(IntEnum):
 	NOT_PRESENT	= 0
 	DOWNLOADED	= 1
 	UNPACKED	= 2
