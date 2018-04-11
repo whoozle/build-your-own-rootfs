@@ -1,6 +1,6 @@
 Version: 1.6.34
-Fetch: ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/libpng-{Version}.tar.xz
-Signature: ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/libpng-{Version}.tar.xz.asc
+Fetch: https://sourceforge.net/projects/libpng/files/libpng16/{Version}/libpng-{Version}.tar.xz
+Signature: https://sourceforge.net/projects/libpng/files/libpng16/{Version}/libpng-{Version}.tar.xz
 
 Build:
  - ./configure --prefix=/usr --host={Host} CPPFLAGS=-I{InstallDirectory}/usr/include LDFLAGS=-L{InstallDirectory}/usr/lib
