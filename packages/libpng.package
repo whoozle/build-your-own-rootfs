@@ -3,7 +3,7 @@ Fetch: https://sourceforge.net/projects/libpng/files/libpng16/{Version}/libpng-{
 Signature: https://sourceforge.net/projects/libpng/files/libpng16/{Version}/libpng-{Version}.tar.xz
 
 Build:
- - ./configure --prefix=/usr --host={Host} CPPFLAGS=-I{InstallDirectory}/usr/include LDFLAGS=-L{InstallDirectory}/usr/lib
+ - ./configure --prefix=/usr --host={Host} CPPFLAGS=-I{TargetDevelopmentRoot}/usr/include LDFLAGS=-L{TargetDevelopmentRoot}/usr/lib
  - make -j{Jobs}
  - make install DESTDIR={InstallDirectory}
 

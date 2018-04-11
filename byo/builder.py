@@ -71,7 +71,9 @@ class Builder(object):
 		vars['Jobs'] = cpu_count
 		vars['CrossCompilePrefix'] = self.prefix
 		vars['Host'] = self.prefix.rstrip('-')
-		vars['InstallDirectory'] = self.root_dev_dir
+		vars['TargetRoot'] = self.root_dir
+		vars['TargetDevelopmentRoot'] = self.root_dev_dir
+		vars['InstallDirectory'] = self.install_dir
 		vars['CCompiler'] = self.prefix + 'gcc'
 		vars['Assembler'] = self.prefix + 'as'
 		vars['Archiver'] = self.prefix + 'ar'
