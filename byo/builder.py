@@ -17,6 +17,9 @@ logger = logging.getLogger(__name__)
 
 
 class Builder(object):
+	CATEGORY_DEVEL = 1
+	CATEGORY_ROOTFS = 2
+
 	def __init__(self, prefix, target, options):
 		self.prefix = prefix
 		self.target = target
@@ -25,8 +28,19 @@ class Builder(object):
 		self.gpg = gpg.Context()
 		self.root = os.path.join(byo.root, 'build.' + prefix.strip('-'))
 		self.archive = None
-		self.work_dir = None
 		self.env = Environment(self.root, target)
+		self.root_dir = self.env.create_dir('root')
+		self.root_dev_dir = self.env.create_dir('root.dev')
+		self.work_dir = self.env.create_dir('tmp', self.target, 'work')
+
+		install_dir = self.metadata.install_dir
+		if install_dir: #custom installation directory, e.g. busybox _install
+			if not os.path.isabs(install_dir): #prepend work directory if it's not absolute
+				install_dir = os.path.join(self.work_dir, install_dir)
+		else:
+			install_dir = self.env.create_dir('tmp', self.target, 'root')
+
+		self.install_dir = install_dir
 		self.__state_file = os.path.join(self.env.create_dir('packages', self.target), 'state')
 		self.__load_state()
 		self.__update_vars(self.metadata.data)
@@ -54,7 +68,7 @@ class Builder(object):
 		vars['Jobs'] = cpu_count
 		vars['CrossCompilePrefix'] = self.prefix
 		vars['Host'] = self.prefix.rstrip('-')
-		vars['InstallDirectory'] = self.env.create_dir('root')
+		vars['InstallDirectory'] = self.install_dir
 		vars['CCompiler'] = self.prefix + 'gcc'
 		vars['Assembler'] = self.prefix + 'as'
 		vars['Archiver'] = self.prefix + 'ar'
@@ -87,8 +101,6 @@ class Builder(object):
 		self.__set_state(PackageState.DOWNLOADED)
 
 	def _unpack(self):
-		self.work_dir = self.env.create_dir('tmp', self.target, 'work')
-
 		if self.__state >= PackageState.UNPACKED:
 			return
 
@@ -106,11 +118,44 @@ class Builder(object):
 			self.env.exec(self.work_dir, *cmd)
 		self.__set_state(PackageState.BUILT)
 
+	def __get_category(self, path): #fixme: improve me
+		if path.startswith('usr/include') \
+			or path.startswith('usr/man') \
+			or path.endswith('.a'):
+			return Builder.CATEGORY_DEVEL
+		else:
+			return Builder.CATEGORY_ROOTFS
+
 	def _install(self):
 		if self.__state >= PackageState.INSTALLED:
 			return
 
 		logger.info('installing...')
+		for src_dir, src_dirs, files in os.walk(self.install_dir, topdown = True):
+			dirname = os.path.relpath(src_dir, self.install_dir)
+			for file in files:
+				fullname = os.path.join(dirname, file)
+				cat = self.__get_category(fullname)
+				logger.debug("installing %s", fullname)
+				if cat == Builder.CATEGORY_ROOTFS:
+					dst_dir = os.path.join(self.root_dir, dirname)
+				elif cat == Builder.CATEGORY_DEVEL:
+					dst_dir = os.path.join(self.root_dev_dir, dirname)
+				else:
+					raise Exception("unknown category %s" %cat)
+
+				try:
+					os.makedirs(dst_dir)
+				except:
+					pass
+
+				src_file = os.path.join(src_dir, file)
+				dst_file = os.path.join(dst_dir, file)
+				if os.path.exists(dst_file):
+					logger.warn('overwriting %s', fullname)
+					os.unlink(dst_file)
+				os.link(src_file, dst_file)
+
 		self.__set_state(PackageState.INSTALLED)
 
 	def _cleanup(self):

@@ -43,6 +43,10 @@ class Metadata(object):
 		return self.__format_var('Fetch')
 
 	@property
+	def install_dir(self):
+		return self.data.get('InstallDirectory', None)
+
+	@property
 	def build(self):
 		return map(self.__format, self.data.get('Build', []))
 
