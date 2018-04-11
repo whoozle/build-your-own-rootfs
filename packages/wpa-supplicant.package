@@ -1,12 +1,13 @@
 Version: 2.6
 Fetch: https://w1.fi/releases/wpa_supplicant-{Version}.tar.gz
 
-#echo "CFLAGS += -I${INSTALL_DIR}/usr/include" > .config
-#echo "LIBS += -L${INSTALL_DIR}/usr/lib" >> .config
-#echo "LIBS_p += -L${INSTALL_DIR}/usr/lib -ldl" >> .config
-#echo "export LIBDIR=/usr/lib" >> .config
-#echo "export BINDIR=/usr/bin" >> .config
-#cat defconfig >> .config
-#try make -j${JOBS} CC=${CROSS_COMPILE}gcc
-#try make install DESTDIR=${INSTALL_DIR}
-#popd
+Build:
+ - cp "{AuxFilesDirectory}/configure" "{WorkDirectory}"
+ - ./configure {TargetDevelopmentRoot}
+ - make -C wpa_supplicant -j{Jobs} CC={CCompiler}
+ - make -C wpa_supplicant install DESTDIR={InstallDirectory}
+
+Depends-On:
+ - openssl
+ - libnl
+ - linux-headers

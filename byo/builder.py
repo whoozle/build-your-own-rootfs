@@ -11,6 +11,7 @@ from byo.process import Environment
 from byo.package import State as PackageState
 from byo.package import FileFlags
 import multiprocessing
+import sys
 
 cpu_count = multiprocessing.cpu_count()
 
@@ -27,6 +28,7 @@ class Builder(object):
 		self.root = os.path.join(byo.root, 'build.' + prefix.strip('-'))
 		self.archive = None
 		self.env = Environment(self.root, target)
+		self.packages_dir = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), 'packages')
 		self.root_dir = self.env.create_dir('root')
 		self.root_dev_dir = self.env.create_dir('root.dev')
 		self.work_dir = self.env.create_dir('tmp', self.target, 'work')
@@ -71,6 +73,8 @@ class Builder(object):
 		vars['TargetRoot'] = self.root_dir
 		vars['TargetDevelopmentRoot'] = self.root_dev_dir
 		vars['InstallDirectory'] = self.install_dir
+		vars['WorkDirectory'] = self.work_dir
+		vars['AuxFilesDirectory'] = os.path.join(self.packages_dir, self.target + ".files")
 		vars['CCompiler'] = self.prefix + 'gcc'
 		vars['Assembler'] = self.prefix + 'as'
 		vars['Archiver'] = self.prefix + 'ar'
@@ -124,6 +128,7 @@ class Builder(object):
 		if path.startswith('usr/include') \
 			or path.startswith('usr/man') \
 			or path.startswith('usr/share/man') \
+			or path.startswith('usr/share/doc') \
 			or path.startswith('usr/lib/pkgconfig') \
 			or (path.startswith('usr/bin') and path.endswith('-config')) \
 			or path.endswith('.a'):

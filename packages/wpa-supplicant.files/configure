@@ -1,0 +1,12 @@
+#!/bin/sh
+
+ROOT=$1
+pushd wpa_supplicant
+echo "CFLAGS += -I${ROOT}/usr/include" > .config
+echo "LIBS += -L${ROOT}/usr/lib" >> .config
+echo "LIBS_p += -L${ROOT}/usr/lib -ldl" >> .config
+echo "export LIBDIR=/usr/lib" >> .config
+echo "export BINDIR=/usr/bin" >> .config
+cat defconfig >> .config
+popd
+

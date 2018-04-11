@@ -47,7 +47,7 @@ class Environment(object):
 			log.write("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nrunning %s\n" %cmd)
 			completed = subprocess.run(args, stderr = subprocess.STDOUT, stdout = log, bufsize = 256 * 1024, cwd = cwd, env = env)
 			if completed.returncode != 0:
-				raise Exception("command %s failed, cwd: %s" %(cmd, cwd))
+				raise Exception("command %s failed with code %d, cwd: %s" %(cmd, completed.returncode, cwd))
 
 	def cleanup(self):
 		tmp = os.path.join(self.root, 'tmp', self.name)
