@@ -9,6 +9,7 @@ import os.path
 import byo
 from byo.process import Environment
 from byo.package import State as PackageState
+from byo.package import FileFlags
 import multiprocessing
 
 cpu_count = multiprocessing.cpu_count()
@@ -43,6 +44,8 @@ class Builder(object):
 		self.install_dir = install_dir
 		self.__state_file = os.path.join(self.env.create_dir('packages', self.target), 'state')
 		self.__load_state()
+		if options.get('force', False):
+			self.__state = PackageState.NOT_PRESENT
 		self.__update_vars(self.metadata.data)
 
 	@property
@@ -68,7 +71,7 @@ class Builder(object):
 		vars['Jobs'] = cpu_count
 		vars['CrossCompilePrefix'] = self.prefix
 		vars['Host'] = self.prefix.rstrip('-')
-		vars['InstallDirectory'] = self.install_dir
+		vars['InstallDirectory'] = self.root_dev_dir
 		vars['CCompiler'] = self.prefix + 'gcc'
 		vars['Assembler'] = self.prefix + 'as'
 		vars['Archiver'] = self.prefix + 'ar'
@@ -121,10 +124,25 @@ class Builder(object):
 	def __get_category(self, path): #fixme: improve me
 		if path.startswith('usr/include') \
 			or path.startswith('usr/man') \
+			or path.startswith('usr/share/man') \
+			or (path.startswith('usr/bin') and path.endswith('-config')) \
 			or path.endswith('.a'):
-			return Builder.CATEGORY_DEVEL
+			return FileFlags.CATEGORY_DEVEL
 		else:
-			return Builder.CATEGORY_ROOTFS
+			return FileFlags.CATEGORY_ROOTFS
+
+	def __link(self, dst_dir, src_dir, file):
+		try:
+			os.makedirs(dst_dir)
+		except FileExistsError:
+			pass
+		src_file = os.path.join(src_dir, file)
+		dst_file = os.path.join(dst_dir, file)
+		if os.path.exists(dst_file):
+			logger.warn('overwriting %s', dst_file)
+			os.unlink(dst_file)
+		os.link(src_file, dst_file)
+
 
 	def _install(self):
 		if self.__state >= PackageState.INSTALLED:
@@ -137,24 +155,15 @@ class Builder(object):
 				fullname = os.path.join(dirname, file)
 				cat = self.__get_category(fullname)
 				logger.debug("installing %s", fullname)
+
+				#install everything in rootfs
+				dst_dir = os.path.join(self.root_dev_dir, dirname)
+				self.__link(dst_dir, src_dir, file)
+				#runtime files go to rootfs
 				if cat == Builder.CATEGORY_ROOTFS:
 					dst_dir = os.path.join(self.root_dir, dirname)
-				elif cat == Builder.CATEGORY_DEVEL:
-					dst_dir = os.path.join(self.root_dev_dir, dirname)
-				else:
-					raise Exception("unknown category %s" %cat)
+					self.__link(dst_dir, src_dir, file)
 
-				try:
-					os.makedirs(dst_dir)
-				except:
-					pass
-
-				src_file = os.path.join(src_dir, file)
-				dst_file = os.path.join(dst_dir, file)
-				if os.path.exists(dst_file):
-					logger.warn('overwriting %s', fullname)
-					os.unlink(dst_file)
-				os.link(src_file, dst_file)
 
 		self.__set_state(PackageState.INSTALLED)
 
@@ -173,12 +182,12 @@ class Builder(object):
 			raise
 
 
-def _build(prefix, target, options):
+def _build(prefix, target, **options):
 	logger.info('building %s for %s...' %(target, prefix))
 	builder = Builder(prefix, target, options)
 	builder.build()
 
-def build(prefix, target, options = {}):
-	logger.info('building %s for %s...' %(target, prefix))
-	for package in byo.package.get_package_queue(target):
-		_build(prefix, package, options)
+def build(prefix, *targets, **options):
+	for target in targets:
+		for package in byo.package.get_package_queue(target):
+			_build(prefix, package, **options)

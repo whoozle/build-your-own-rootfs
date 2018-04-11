@@ -11,6 +11,7 @@ parser = ArgumentParser("build tool for byo rootfs project")
 parser.add_argument('prefix', help = 'cross-compile toolchain prefix, e.g. armv7-linux-gnueabi-', nargs='?')
 parser.add_argument('target', help = 'target', default='system-image', nargs='?')
 parser.add_argument('-l', '--list', help = 'list toolchains available in PATH', action='store_true')
+parser.add_argument('-f', '--force', help = 'force rebuilding current target', action='store_true')
 parser.add_argument('-v', '--verbose', help = 'be verbose', action='store_true')
 args = parser.parse_args()
 
@@ -22,4 +23,4 @@ if args.list:
 		print('\t%s %s' %(sys.argv[0], escape(prefix)))
 
 if args.prefix is not None:
-	build(args.prefix, args.target)
+	build(args.prefix, args.target, force = args.force)

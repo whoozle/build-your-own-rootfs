@@ -7,6 +7,10 @@ logger = logging.getLogger(__name__)
 
 from enum import IntEnum
 
+class FileFlags(IntEnum):
+	CATEGORY_ROOTFS = 1
+	CATEGORY_DEVEL = 2
+
 class State(IntEnum):
 	NOT_PRESENT	= 0
 	DOWNLOADED	= 1
