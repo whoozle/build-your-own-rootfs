@@ -8,11 +8,13 @@ import gpg
 import os.path
 import byo
 from byo.process import Environment
+from byo.package import State as PackageState
 import multiprocessing
 
 cpu_count = multiprocessing.cpu_count()
 
 logger = logging.getLogger(__name__)
+
 
 class Builder(object):
 	def __init__(self, prefix, target, options):

@@ -5,6 +5,15 @@ import yaml
 
 logger = logging.getLogger(__name__)
 
+from enum import Enum
+
+class State(Enum):
+	NOT_PRESENT	= 0
+	DOWNLOADED	= 1
+	UNPACKED	= 2
+	BUILT		= 3
+	INSTALLED	= 4
+
 class Metadata(object):
 	def __init__(self, data):
 		self.data = data
