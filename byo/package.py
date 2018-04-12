@@ -7,10 +7,6 @@ logger = logging.getLogger(__name__)
 
 from enum import IntEnum
 
-class FileFlags(IntEnum):
-	CATEGORY_ROOTFS = 1
-	CATEGORY_DEVEL = 2
-
 class State(IntEnum):
 	NOT_PRESENT	= 0
 	DOWNLOADED	= 1
@@ -58,7 +54,7 @@ def read_metadata(name):
 	root = os.path.join(byo.root, 'packages')
 	with open(os.path.join(root, name + ".package")) as f:
 		data = yaml.load(f)
-	logger.debug('read metadata %s', name)
+	logger.debug('read metadata %s %s', name, data)
 	data = Metadata(data)
 	return data
 

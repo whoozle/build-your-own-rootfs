@@ -9,7 +9,7 @@ import os.path
 import byo
 from byo.process import Environment
 from byo.package import State as PackageState
-from byo.package import FileFlags
+import json
 import multiprocessing
 import sys
 
@@ -30,7 +30,6 @@ class Builder(object):
 		self.env = Environment(self.root, target)
 		self.packages_dir = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), 'packages')
 		self.root_dir = self.env.create_dir('root')
-		self.root_dev_dir = self.env.create_dir('root.dev')
 		self.work_dir = self.env.create_dir('tmp', self.target, 'work')
 
 		install_dir = self.metadata.install_dir
@@ -42,6 +41,7 @@ class Builder(object):
 
 		self.install_dir = install_dir
 		self.__state_file = os.path.join(self.env.create_dir('packages', self.target), 'state')
+		self.__files_file = os.path.join(self.env.create_dir('packages', self.target), 'files')
 		self.__load_state()
 		if options.get('force', False):
 			self.__state = PackageState.NOT_PRESENT
@@ -71,7 +71,7 @@ class Builder(object):
 		vars['CrossCompilePrefix'] = self.prefix
 		vars['Host'] = self.prefix.rstrip('-')
 		vars['TargetRoot'] = self.root_dir
-		vars['TargetDevelopmentRoot'] = self.root_dev_dir
+		vars['TargetDevelopmentRoot'] = self.root_dir
 		vars['InstallDirectory'] = self.install_dir
 		vars['WorkDirectory'] = self.work_dir
 		vars['AuxFilesDirectory'] = os.path.join(self.packages_dir, self.target + ".files")
@@ -124,7 +124,7 @@ class Builder(object):
 			self.env.exec(self.work_dir, *cmd)
 		self.__set_state(PackageState.BUILT)
 
-	def __get_category(self, path): #fixme: improve me
+	def __get_tags(self, path): #fixme: put into base package script
 		if path.startswith('usr/include') \
 			or path.startswith('usr/man') \
 			or path.startswith('usr/share/man') \
@@ -132,9 +132,9 @@ class Builder(object):
 			or path.startswith('usr/lib/pkgconfig') \
 			or (path.startswith('usr/bin') and path.endswith('-config')) \
 			or path.endswith('.a'):
-			return FileFlags.CATEGORY_DEVEL
+			return ('devel', )
 		else:
-			return FileFlags.CATEGORY_ROOTFS
+			return ('core', )
 
 	def __link(self, dst_dir, src_dir, file):
 		try:
@@ -154,21 +154,22 @@ class Builder(object):
 			return
 
 		logger.info('installing...')
+		registry = {}
 		for src_dir, src_dirs, files in os.walk(self.install_dir, topdown = True):
 			dirname = os.path.relpath(src_dir, self.install_dir)
 			for file in files:
 				fullname = os.path.join(dirname, file)
-				cat = self.__get_category(fullname)
-				logger.debug("installing %s (%s)", fullname, cat)
+				tags = self.__get_tags(fullname)
+				for tag in tags:
+					registry_files = registry.setdefault(tag, [])
+					registry_files.append(fullname)
+				logger.debug("installing %s %s", fullname, tags)
 
-				#install everything in dev root
-				dst_dir = os.path.join(self.root_dev_dir, dirname)
+				dst_dir = os.path.join(self.root_dir, dirname)
 				self.__link(dst_dir, src_dir, file)
-				#runtime files go to rootfs
-				if cat == FileFlags.CATEGORY_ROOTFS:
-					dst_dir = os.path.join(self.root_dir, dirname)
-					self.__link(dst_dir, src_dir, file)
 
+		with open(self.__files_file, "wt") as f:
+			f.write(json.dumps(registry))
 
 		self.__set_state(PackageState.INSTALLED)
 
