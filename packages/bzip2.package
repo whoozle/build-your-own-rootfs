@@ -3,3 +3,6 @@ Fetch: http://www.bzip.org/{Version}/bzip2-{Version}.tar.gz
 
 Build:
  - make -j{Jobs} install CC={CCompiler} PREFIX={InstallDirectory}/usr
+
+Install:
+ usr/bin: tools

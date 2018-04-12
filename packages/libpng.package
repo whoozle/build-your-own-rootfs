@@ -9,3 +9,7 @@ Build:
 
 Depends-On:
  - zlib
+
+Install:
+ usr/bin/png-fix-itxt: tools, devel
+ usr/bin/pngfix: tools, devel
