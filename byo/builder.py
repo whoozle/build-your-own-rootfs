@@ -130,6 +130,8 @@ class Builder(object):
 		self.__set_state(PackageState.BUILT)
 
 	def __get_tags(self, path): #fixme: put into base package script
+		if path.startswith('boot'):
+			return ('boot', )
 		if path.startswith('usr/include') \
 			or path.startswith('usr/man') \
 			or path.startswith('usr/share/man') \
