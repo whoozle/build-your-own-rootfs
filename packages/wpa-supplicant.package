@@ -10,4 +10,4 @@ Build:
 Depends-On:
  - openssl
  - libnl
- - linux-headers
+ - linux
