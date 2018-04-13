@@ -69,6 +69,11 @@ class Builder(object):
 	def __update_vars(self, vars):
 		vars['Jobs'] = cpu_count
 		vars['CrossCompilePrefix'] = self.prefix
+		linux_platforms = (('aarch64', 'arm64'), ('arm', 'arm'), ('mips', 'mips'), ('x86_64', 'x84_64'))
+		for name, platform in linux_platforms:
+			if name in self.prefix:
+				vars['LinuxPlatform'] = platform
+				break
 		vars['Host'] = self.prefix.rstrip('-')
 		vars['TargetRoot'] = self.root_dir
 		vars['TargetDevelopmentRoot'] = self.root_dir
