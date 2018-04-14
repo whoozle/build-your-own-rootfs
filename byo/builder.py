@@ -43,8 +43,6 @@ class Builder(object):
 		self.__state_file = os.path.join(self.env.create_dir('packages', self.target), 'state')
 		self.__files_file = os.path.join(self.env.create_dir('packages', self.target), 'files')
 		self.__load_state()
-		if options.get('force', False):
-			self.__state = PackageState.NOT_PRESENT
 		self.__update_vars(self.metadata.data)
 
 	@property
