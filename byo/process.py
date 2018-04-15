@@ -26,7 +26,7 @@ class Environment(object):
 		completed = subprocess.run(args, stdout = subprocess.PIPE, bufsize = 256 * 1024, cwd = cwd)
 		if completed.returncode != 0:
 			raise Exception("command %s failed with code %d, cwd: %s" %(" ".join(args), completed.returncode, cwd))
-		return completed.stdout
+		return completed.stdout.decode('utf-8')
 
 
 	def exec(self, cwd, *args, **kw):

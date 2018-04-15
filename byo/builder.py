@@ -79,7 +79,7 @@ class Builder(object):
 		vars['WorkDirectory'] = self.work_dir
 		vars['AuxFilesDirectory'] = os.path.join(self.packages_dir, self.target + ".files")
 		c_compiler = self.prefix + 'gcc'
-		vars['SystemRootDirectory'] = self.env.get_output(self.work_dir, c_compiler, '-print-sysroot')
+		vars['SystemRootDirectory'] = self.env.get_output(self.work_dir, c_compiler, '-print-sysroot').strip()
 		vars['CCompiler'] = c_compiler
 		vars['CXXCompiler'] = self.prefix + 'g++'
 		vars['Assembler'] = self.prefix + 'as'
