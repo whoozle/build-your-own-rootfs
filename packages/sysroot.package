@@ -1,4 +1,3 @@
 Build:
  - mkdir -p {InstallDirectory}
  - cp -a {SystemRootDirectory}/. {InstallDirectory}
- - plzno
