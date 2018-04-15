@@ -116,8 +116,9 @@ class Builder(object):
 		if self.__state >= PackageState.UNPACKED:
 			return
 
-		logger.info('unpacking...')
-		self.env.exec(self.work_dir, 'tar', '--strip=1', '-xf', self.archive)
+		if self.archive:
+			logger.info('unpacking...')
+			self.env.exec(self.work_dir, 'tar', '--strip=1', '-xf', self.archive)
 		self.__set_state(PackageState.UNPACKED)
 
 	def _build(self):
