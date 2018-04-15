@@ -136,6 +136,7 @@ class Builder(object):
 			return ('boot', )
 		if path.startswith('usr/include') \
 			or path.startswith('usr/man') \
+			or path.startswith('Makefile') \
 			or path.startswith('usr/share/man') \
 			or path.startswith('usr/share/doc') \
 			or path.startswith('usr/lib/pkgconfig') \
