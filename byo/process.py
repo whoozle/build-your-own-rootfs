@@ -22,6 +22,13 @@ class Environment(object):
 			pass
 		return path
 
+	def get_output(self, cwd, *args, **kw):
+		completed = subprocess.run(args, stdout = subprocess.PIPE, bufsize = 256 * 1024, cwd = cwd)
+		if completed.returncode != 0:
+			raise Exception("command %s failed with code %d, cwd: %s" %(" ".join(args), completed.returncode, cwd))
+		return completed.stdout
+
+
 	def exec(self, cwd, *args, **kw):
 		if cwd is None:
 			raise Exception("you must provide current directory for your command")
