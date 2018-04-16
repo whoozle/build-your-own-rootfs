@@ -2,6 +2,7 @@ import byo
 import logging
 import os.path
 import yaml
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -13,6 +14,38 @@ class State(IntEnum):
 	UNPACKED	= 2
 	BUILT		= 3
 	INSTALLED	= 4
+
+class PackageState(object):
+	def __init__(self, package_state_dir):
+		self.state_dir = package_state_dir
+		self.__state_file = os.path.join(package_state_dir, 'state')
+		self.__files_file = os.path.join(package_state_dir, 'files')
+		self.__load()
+
+	@property
+	def state(self):
+		return self.__state
+
+	@state.setter
+	def state(self, state):
+		self.__state = state
+		with open(self.__state_file, "wt") as f:
+			f.write(state.name)
+
+	def __load(self):
+		self.__state = State.NOT_PRESENT
+		if not os.path.exists(self.__state_file):
+			return
+		try:
+			with open(self.__state_file) as f:
+				self.__state = State[f.read()]
+		except:
+			logger.exception("failed loading current state")
+
+	def save_files(self, files):
+		with open(self.__files_file, "wt") as f:
+			f.write(json.dumps(files))
+
 
 class Metadata(object):
 	def __init__(self, data):

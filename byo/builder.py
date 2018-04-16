@@ -8,8 +8,7 @@ import gpg
 import os.path
 import byo
 from byo.process import Environment
-from byo.package import State as PackageState
-import json
+from byo.package import State, PackageState
 import multiprocessing
 import sys
 
@@ -40,29 +39,8 @@ class Builder(object):
 			install_dir = self.env.create_dir('tmp', self.target, 'root')
 
 		self.install_dir = install_dir
-		self.__state_file = os.path.join(self.env.create_dir('packages', self.target), 'state')
-		self.__files_file = os.path.join(self.env.create_dir('packages', self.target), 'files')
-		self.__load_state()
+		self.__state = PackageState(self.env.create_dir('packages', self.target))
 		self.__update_vars(self.metadata.data)
-
-	@property
-	def state(self):
-		return self.__state
-
-	def __load_state(self):
-		self.__state = PackageState.NOT_PRESENT
-		if not os.path.exists(self.__state_file):
-			return
-		try:
-			with open(self.__state_file) as f:
-				self.__state = PackageState[f.read()]
-		except:
-			logger.exception("failed loading current state")
-
-	def __set_state(self, state):
-		self.__state = state
-		with open(self.__state_file, "wt") as f:
-			f.write(state.name)
 
 	def __update_vars(self, vars):
 		vars['Jobs'] = cpu_count
@@ -103,33 +81,33 @@ class Builder(object):
 	def _fetch(self):
 		url = self.metadata.fetch_url
 		if url is None:
-			self.__set_state(PackageState.DOWNLOADED)
+			self.__state.state = State.DOWNLOADED
 			return
 		parsed = urllib.parse.urlparse(url)
 		fname = str(os.path.basename(parsed.path))
 		self.archive = self.__fetch_cache(url, fname)
-		if self.__state >= PackageState.DOWNLOADED:
+		if self.__state.state >= State.DOWNLOADED:
 			return
-		self.__set_state(PackageState.DOWNLOADED)
+		self.__state.state = State.DOWNLOADED
 
 	def _unpack(self):
-		if self.__state >= PackageState.UNPACKED:
+		if self.__state.state >= State.UNPACKED:
 			return
 
 		if self.archive:
 			logger.info('unpacking...')
 			self.env.exec(self.work_dir, 'tar', '--strip=1', '-xf', self.archive)
-		self.__set_state(PackageState.UNPACKED)
+		self.__state.state = State.UNPACKED
 
 	def _build(self):
-		if self.__state >= PackageState.BUILT:
+		if self.__state.state >= State.BUILT:
 			return
 
 		logger.info('building...')
 		for cmd in self.metadata.build:
 			cmd = shlex.split(cmd)
 			self.env.exec(self.work_dir, *cmd)
-		self.__set_state(PackageState.BUILT)
+		self.__state.state = State.BUILT
 
 	def __get_tags(self, path): #fixme: put into base package script
 		if path.startswith('boot'):
@@ -160,7 +138,7 @@ class Builder(object):
 
 
 	def _install(self):
-		if self.__state >= PackageState.INSTALLED:
+		if self.__state.state >= State.INSTALLED:
 			return
 
 		logger.info('installing...')
@@ -178,10 +156,8 @@ class Builder(object):
 				dst_dir = os.path.join(self.root_dir, dirname)
 				self.__link(dst_dir, src_dir, file)
 
-		with open(self.__files_file, "wt") as f:
-			f.write(json.dumps(registry))
-
-		self.__set_state(PackageState.INSTALLED)
+		self.__state.save_files(registry)
+		self.__state.state = State.INSTALLED
 
 	def _cleanup(self):
 		self.env.cleanup()
