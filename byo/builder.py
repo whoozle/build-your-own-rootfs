@@ -176,10 +176,11 @@ class Builder(object):
 
 def _build(prefix, target, **options):
 	logger.info('building %s for %s...' %(target, prefix))
+	logger.debug('package options %s', options)
 	builder = Builder(prefix, target, options)
 	builder.build()
 
 def build(prefix, *targets, **options):
 	for target in targets:
 		for package in byo.package.get_package_queue(target):
-			_build(prefix, package, **options)
+			_build(prefix, package, ** (options if target == package else {}))
