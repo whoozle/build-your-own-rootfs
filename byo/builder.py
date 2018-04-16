@@ -27,6 +27,12 @@ class Builder(object):
 		self.root = os.path.join(byo.root, 'build.' + prefix.strip('-'))
 		self.archive = None
 		self.env = Environment(self.root, target)
+
+		self.__force = options.get('force', False)
+		self.__keep = options.get('keep', False)
+		if self.__force:
+			self.env.cleanup()
+
 		self.packages_dir = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), 'packages')
 		self.root_dir = self.env.create_dir('root')
 		self.work_dir = self.env.create_dir('tmp', self.target, 'work')
@@ -40,6 +46,8 @@ class Builder(object):
 
 		self.install_dir = install_dir
 		self.__state = PackageState(self.env.create_dir('packages', self.target))
+		if self.__force:
+			self.__state.reset()
 		self.__update_vars(self.metadata.data)
 
 	def __update_vars(self, vars):
@@ -160,7 +168,8 @@ class Builder(object):
 		self.__state.state = State.INSTALLED
 
 	def _cleanup(self):
-		self.env.cleanup()
+		if not self.__keep:
+			self.env.cleanup()
 
 	def build(self):
 		try:

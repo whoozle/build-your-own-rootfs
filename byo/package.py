@@ -42,6 +42,13 @@ class PackageState(object):
 		except:
 			logger.exception("failed loading current state")
 
+	def reset(self):
+		self.__state = State.NOT_PRESENT
+		if os.path.exists(self.__state_file):
+			os.unlink(self.__state_file)
+		if os.path.exists(self.__files_file):
+			os.unlink(self.__files_file)
+
 	def save_files(self, files):
 		with open(self.__files_file, "wt") as f:
 			f.write(json.dumps(files))
