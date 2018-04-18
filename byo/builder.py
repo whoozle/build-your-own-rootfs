@@ -164,12 +164,20 @@ class Builder(object):
 				dst_dir = os.path.join(self.root_dir, dirname)
 				self.__link(dst_dir, src_dir, file)
 
-		self.__state.save_files(registry)
+		self.__state.files = registry
 		self.__state.state = State.INSTALLED
 
 	def _cleanup(self):
 		if not self.__keep:
 			self.env.cleanup()
+
+	def _extract(self):
+		extract = self.options.get('extract', [])
+		for tag in extract:
+			files = self.__state.files
+			tagged = files.get(tag, [])
+			for file in tagged:
+				logger.debug("extracting %s", file)
 
 	def build(self):
 		try:
@@ -178,6 +186,7 @@ class Builder(object):
 			self._build()
 			self._install()
 			self._cleanup()
+			self._extract()
 		except:
 			logger.exception('build failed')
 			raise
@@ -191,9 +200,9 @@ def _build(prefix, target, **options):
 
 def build(prefix, *targets, **options):
 	global_options = {}
-	extract = options.get('extract', '')
-	if extract:
-		global_options['extract'] = extract
+	extract = [ x.strip() for x in options.get('extract', '').split(',') ]
+	global_options['extract'] = extract
+	options['extract'] = extract
 
 	for target in targets:
 		for package in byo.package.get_package_queue(target):

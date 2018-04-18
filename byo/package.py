@@ -29,7 +29,7 @@ class PackageState(object):
 	@state.setter
 	def state(self, state):
 		self.__state = state
-		with open(self.__state_file, "wt") as f:
+		with open(self.__state_file, "w") as f:
 			f.write(state.name)
 
 	def __load(self):
@@ -49,8 +49,15 @@ class PackageState(object):
 		if os.path.exists(self.__files_file):
 			os.unlink(self.__files_file)
 
-	def save_files(self, files):
-		with open(self.__files_file, "wt") as f:
+	@property
+	def files(self):
+		with open(self.__files_file) as f:
+			return json.loads(f.read())
+
+
+	@files.setter
+	def files(self, files):
+		with open(self.__files_file, "w") as f:
 			f.write(json.dumps(files))
 
 

@@ -14,7 +14,7 @@ parser.add_argument('-l', '--list', help = 'list toolchains available in PATH', 
 parser.add_argument('-f', '--force', help = 'force rebuilding current target', action='store_true')
 parser.add_argument('-k', '--keep', help = 'keep sources in tmp/package directory after installation', action='store_true')
 parser.add_argument('-v', '--verbose', help = 'be verbose', action='store_true')
-parser.add_argument('-e', '--extract', help = 'extract rootfs with given tags(comma-separated)')
+parser.add_argument('-e', '--extract', help = 'extract rootfs with given tags(comma-separated)', default = '')
 args = parser.parse_args()
 
 logging.basicConfig(level = logging.DEBUG if args.verbose else logging.INFO)
@@ -25,4 +25,4 @@ if args.list:
 		print('\t%s %s' %(sys.argv[0], escape(prefix)))
 
 if args.prefix is not None:
-	build(args.prefix, *args.target, force = args.force, keep = args.keep)
+	build(args.prefix, *args.target, force = args.force, keep = args.keep, extract = args.extract)
