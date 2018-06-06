@@ -4,7 +4,7 @@ import urllib.request
 import urllib.parse
 import shutil
 import shlex
-import gpg
+#import gpg
 import os.path
 import byo
 from byo.process import Environment
@@ -23,7 +23,7 @@ class Builder(object):
 		self.target = target
 		self.options = options
 		self.metadata = byo.package.read_metadata(target)
-		self.gpg = gpg.Context()
+		#self.gpg = gpg.Context()
 		self.root = os.path.join(byo.root, 'build.' + prefix.strip('-'))
 		self.archive = None
 		self.env = Environment(self.root, target)
