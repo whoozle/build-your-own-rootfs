@@ -1,4 +1,4 @@
-Version: 1.28.3
+Version: 1.28.4
 Fetch: https://www.busybox.net/downloads/busybox-{Version}.tar.bz2
 Signature: https://www.busybox.net/downloads/busybox-{Version}.tar.bz2.sign
 Public-Key: https://busybox.net/~vda/vda_pubkey.gpg
