@@ -200,9 +200,7 @@ def _build(prefix, target, **options):
 
 def build(prefix, *targets, **options):
 	global_options = {}
-	extract = [ x.strip() for x in options.get('extract', '').split(',') ]
-	global_options['extract'] = extract
-	options['extract'] = extract
+	global_options['extract'] = options['extract']
 
 	for target in targets:
 		for package in byo.package.get_package_queue(target):
