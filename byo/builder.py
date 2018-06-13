@@ -21,7 +21,7 @@ def get_file_tags(path): #fixme: put into base package script
 		return ('boot', )
 	if path.startswith('usr/include') \
 		or path.startswith('usr/man') \
-		or path.startswith('Makefile') \
+		or path.endswith('Makefile') \
 		or path.startswith('usr/share/man') \
 		or path.startswith('usr/share/doc') \
 		or path.startswith('usr/lib/pkgconfig') \
