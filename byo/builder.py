@@ -16,6 +16,21 @@ cpu_count = multiprocessing.cpu_count()
 
 logger = logging.getLogger(__name__)
 
+def get_file_tags(path): #fixme: put into base package script
+	if path.startswith('boot'):
+		return ('boot', )
+	if path.startswith('usr/include') \
+		or path.startswith('usr/man') \
+		or path.startswith('Makefile') \
+		or path.startswith('usr/share/man') \
+		or path.startswith('usr/share/doc') \
+		or path.startswith('usr/lib/pkgconfig') \
+		or (path.startswith('usr/bin') and path.endswith('-config')) \
+		or path.endswith('.a'):
+		return ('devel', )
+	else:
+		return ('core', )
+
 
 class Builder(object):
 	def __init__(self, prefix, target, options):
@@ -117,21 +132,6 @@ class Builder(object):
 			self.env.exec(self.work_dir, *cmd)
 		self.__state.state = State.BUILT
 
-	def __get_tags(self, path): #fixme: put into base package script
-		if path.startswith('boot'):
-			return ('boot', )
-		if path.startswith('usr/include') \
-			or path.startswith('usr/man') \
-			or path.startswith('Makefile') \
-			or path.startswith('usr/share/man') \
-			or path.startswith('usr/share/doc') \
-			or path.startswith('usr/lib/pkgconfig') \
-			or (path.startswith('usr/bin') and path.endswith('-config')) \
-			or path.endswith('.a'):
-			return ('devel', )
-		else:
-			return ('core', )
-
 	def __link(self, dst_dir, src_dir, file):
 		try:
 			os.makedirs(dst_dir)
@@ -155,7 +155,7 @@ class Builder(object):
 			dirname = os.path.relpath(src_dir, self.install_dir)
 			for file in files:
 				fullname = os.path.join(dirname, file)
-				tags = self.__get_tags(fullname)
+				tags = get_file_tags(fullname)
 				for tag in tags:
 					registry_files = registry.setdefault(tag, [])
 					registry_files.append(fullname)
