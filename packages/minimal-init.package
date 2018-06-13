@@ -1,9 +1,16 @@
 Build:
  - mkdir -p {InstallDirectory}/dev
+ - touch {InstallDirectory}/dev/.keep
  - mkdir -p {InstallDirectory}/etc
+ - touch {InstallDirectory}/etc/.keep
  - mkdir -p {InstallDirectory}/media
+ - touch {InstallDirectory}/media/.keep
  - mkdir -p {InstallDirectory}/sys
+ - touch {InstallDirectory}/sys/.keep
  - mkdir -p {InstallDirectory}/proc
+ - touch {InstallDirectory}/proc/.keep
  - mkdir -p {InstallDirectory}/tmp
+ - touch {InstallDirectory}/tmp/.keep
  - mkdir -p {InstallDirectory}/var
+ - touch {InstallDirectory}/var/.keep
  - cp -ar "{AuxFilesDirectory}/." "{InstallDirectory}"
