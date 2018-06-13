@@ -191,6 +191,9 @@ class Builder(object):
 
 	def _extract(self):
 		extract = self.options.get('extract', [])
+		if not extract:
+			return
+
 		logger.debug('extract tags %s', extract)
 		dst_dir = self.env.create_dir('root.' + '+'.join(extract))
 		logger.debug('extract to %s', dst_dir)
