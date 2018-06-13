@@ -65,8 +65,14 @@ class Metadata(object):
 	def __init__(self, data):
 		self.data = data
 
-	def __format(self, url):
-		return url.format(*[], **self.data)
+	def __format(self, text):
+		while True:
+			next = text.format(*[], **self.data)
+			if next == text:
+				break
+			text = next
+		return next
+
 
 	def __format_var(self, name):
 		url = self.data.get(name, None)
@@ -91,7 +97,7 @@ class Metadata(object):
 
 	@property
 	def install_dir(self):
-		return self.data.get('InstallDirectory', None)
+		return self.__format_var('InstallDirectory')
 
 	@property
 	def build(self):
