@@ -100,6 +100,10 @@ class Metadata(object):
 		return self.__format_var('InstallDirectory')
 
 	@property
+	def copy_to_root(self):
+		return self.data.get('InstallIntoCommonRoot', True)
+
+	@property
 	def build(self):
 		return map(self.__format, self.data.get('Build', []))
 

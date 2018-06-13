@@ -150,6 +150,7 @@ class Builder(object):
 		if self.__state.state >= State.INSTALLED:
 			return
 
+		copy_to_root = self.metadata.copy_to_root
 		logger.info('installing...')
 		registry = {}
 		for src_dir, src_dirs, files in os.walk(self.install_dir, topdown = True):
@@ -160,10 +161,11 @@ class Builder(object):
 				for tag in tags:
 					registry_files = registry.setdefault(tag, [])
 					registry_files.append(fullname)
-				logger.debug("installing %s %s", fullname, tags)
 
-				dst_dir = os.path.join(self.root_dir, dirname)
-				self.__link(dst_dir, src_dir, file)
+				if copy_to_root:
+					logger.debug("installing %s %s", fullname, tags)
+					dst_dir = os.path.join(self.root_dir, dirname)
+					self.__link(dst_dir, src_dir, file)
 
 		self.__state.files = registry
 		self.__state.state = State.INSTALLED
