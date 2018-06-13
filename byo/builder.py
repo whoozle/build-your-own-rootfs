@@ -52,8 +52,10 @@ class Builder(object):
 		self.root_dir = self.env.create_dir('root')
 		self.work_dir = self.env.create_dir('tmp', self.target, 'work')
 
+		self.__update_vars(self.metadata.data)
 		install_dir = self.metadata.install_dir
 		if install_dir: #custom installation directory, e.g. busybox _install
+			logger.debug('custom install directory %s', install_dir)
 			if not os.path.isabs(install_dir): #prepend work directory if it's not absolute
 				install_dir = os.path.join(self.work_dir, install_dir)
 		else:
@@ -63,7 +65,7 @@ class Builder(object):
 		self.__state = PackageState(self.env.create_dir('packages', self.target))
 		if self.__force:
 			self.__state.reset()
-		self.__update_vars(self.metadata.data)
+		self.metadata.data['InstallDirectory'] = self.install_dir
 
 	def __update_vars(self, vars):
 		vars['Jobs'] = cpu_count
@@ -76,7 +78,6 @@ class Builder(object):
 		vars['Host'] = self.prefix.rstrip('-')
 		vars['TargetRoot'] = self.root_dir
 		vars['TargetDevelopmentRoot'] = self.root_dir
-		vars['InstallDirectory'] = self.install_dir
 		vars['WorkDirectory'] = self.work_dir
 		vars['AuxFilesDirectory'] = os.path.join(self.packages_dir, self.target + ".files")
 		c_compiler = self.prefix + 'gcc'
