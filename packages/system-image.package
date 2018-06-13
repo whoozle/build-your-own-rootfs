@@ -2,3 +2,4 @@ Depends-On:
  - sysroot
  - linux
  - busybox
+ - minimal-init

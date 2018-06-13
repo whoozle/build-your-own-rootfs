@@ -1,0 +1,9 @@
+Build:
+ - mkdir -p {InstallDirectory}/dev
+ - mkdir -p {InstallDirectory}/etc
+ - mkdir -p {InstallDirectory}/media
+ - mkdir -p {InstallDirectory}/sys
+ - mkdir -p {InstallDirectory}/proc
+ - mkdir -p {InstallDirectory}/tmp
+ - mkdir -p {InstallDirectory}/var
+ - cp -ar "{AuxFilesDirectory}/." "{InstallDirectory}"
