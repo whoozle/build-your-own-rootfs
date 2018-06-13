@@ -134,17 +134,30 @@ class Builder(object):
 			self.env.exec(self.work_dir, *cmd)
 		self.__state.state = State.BUILT
 
-	def __link(self, dst_dir, src_dir, file):
+	def __link(self, dst_dir, src_dir, file, warn_overwrite = True):
 		try:
 			os.makedirs(dst_dir)
 		except FileExistsError:
 			pass
 		src_file = os.path.join(src_dir, file)
 		dst_file = os.path.join(dst_dir, file)
+		real_dst_dir = os.path.dirname(dst_file)
 		if os.path.exists(dst_file):
-			logger.warn('overwriting %s', dst_file)
+			if warn_overwrite:
+				logger.warn('overwriting %s', dst_file)
 			os.unlink(dst_file)
-		os.link(src_file, dst_file)
+		if not os.path.exists(real_dst_dir):
+			os.makedirs(real_dst_dir)
+		try:
+			os.link(src_file, dst_file)
+		except OSError as e:
+			if e.errno == 18: #x-device link
+				try:
+					shutil.copy(src_file, dst_file)
+				except FileNotFoundError:
+					logger.warn('skipping broken symlink at %s', file)
+			else:
+				raise
 
 
 	def _install(self):
@@ -166,6 +179,7 @@ class Builder(object):
 				if copy_to_root:
 					logger.debug("installing %s %s", fullname, tags)
 					dst_dir = os.path.join(self.root_dir, dirname)
+					env.create_dir(dst_dir)
 					self.__link(dst_dir, src_dir, file)
 
 		self.__state.files = registry
@@ -178,11 +192,23 @@ class Builder(object):
 	def _extract(self):
 		extract = self.options.get('extract', [])
 		logger.debug('extract tags %s', extract)
+		dst_dir = self.env.create_dir('root.' + '+'.join(extract))
+		logger.debug('extract to %s', dst_dir)
+
+		copy_to_root = self.metadata.copy_to_root
+		src_dir = self.root_dir if copy_to_root else self.install_dir
+		logger.debug('extracting from %s', src_dir)
 		for tag in extract:
 			files = self.__state.files
 			tagged = files.get(tag, [])
 			for file in tagged:
 				logger.debug("extracting %s", file)
+				self.__link(dst_dir, src_dir, file, warn_overwrite = False)
+				if tag == 'core':
+					try:
+						self.env.exec(self.root, self.prefix + 'strip', '--strip-unneeded', os.path.join(dst_dir, file))
+					except:
+						pass
 
 	def build(self):
 		try:
@@ -190,8 +216,8 @@ class Builder(object):
 			self._unpack()
 			self._build()
 			self._install()
-			self._cleanup()
 			self._extract()
+			self._cleanup()
 		except:
 			logger.exception('build failed')
 			raise
