@@ -208,11 +208,6 @@ class Builder(object):
 			for file in tagged:
 				logger.debug("extracting %s", file)
 				self.__link(dst_dir, src_dir, file, warn_overwrite = False)
-				if tag == 'core':
-					try:
-						self.env.exec(self.root, self.prefix + 'strip', '--strip-unneeded', os.path.join(dst_dir, file))
-					except:
-						pass
 
 	def build(self):
 		try:
