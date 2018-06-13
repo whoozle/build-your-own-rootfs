@@ -1,3 +1,4 @@
 Depends-On:
+ - sysroot
  - linux
  - busybox
