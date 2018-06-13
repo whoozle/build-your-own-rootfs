@@ -135,29 +135,30 @@ class Builder(object):
 		self.__state.state = State.BUILT
 
 	def __link(self, dst_dir, src_dir, file, warn_overwrite = True):
-		try:
-			os.makedirs(dst_dir)
-		except FileExistsError:
-			pass
 		src_file = os.path.join(src_dir, file)
 		dst_file = os.path.join(dst_dir, file)
 		real_dst_dir = os.path.dirname(dst_file)
-		if os.path.exists(dst_file):
+		if os.path.exists(dst_file) or os.path.islink(dst_file):
 			if warn_overwrite:
 				logger.warn('overwriting %s', dst_file)
 			os.unlink(dst_file)
 		if not os.path.exists(real_dst_dir):
 			os.makedirs(real_dst_dir)
-		try:
-			os.link(src_file, dst_file)
-		except OSError as e:
-			if e.errno == 18: #x-device link
-				try:
-					shutil.copy(src_file, dst_file)
-				except FileNotFoundError:
-					logger.warn('skipping broken symlink at %s', file)
-			else:
-				raise
+
+		if os.path.islink(src_file):
+			linkto = os.readlink(src_file)
+			os.symlink(linkto, dst_file)
+		else:
+			try:
+				os.link(src_file, dst_file)
+			except OSError as e:
+				if e.errno == 18: #x-device link
+					try:
+						shutil.copy(src_file, dst_file)
+					except FileNotFoundError:
+						logger.warn('skipping broken symlink at %s', file)
+				else:
+					raise
 
 
 	def _install(self):
