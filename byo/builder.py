@@ -173,6 +173,7 @@ class Builder(object):
 
 	def _extract(self):
 		extract = self.options.get('extract', [])
+		logger.debug('extract tags %s', extract)
 		for tag in extract:
 			files = self.__state.files
 			tagged = files.get(tag, [])
@@ -201,6 +202,7 @@ def _build(prefix, target, **options):
 def build(prefix, *targets, **options):
 	global_options = {}
 	global_options['extract'] = options['extract']
+	logger.debug('options %s', options)
 
 	for target in targets:
 		for package in byo.package.get_package_queue(target):
