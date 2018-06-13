@@ -25,6 +25,7 @@ def get_file_tags(path): #fixme: put into base package script
 		or path.startswith('usr/share/man') \
 		or path.startswith('usr/share/doc') \
 		or path.startswith('usr/lib/pkgconfig') \
+		or path.startswith('etc/portage') \
 		or (path.startswith('usr/bin') and path.endswith('-config')) \
 		or path.endswith('.a'):
 		return ('devel', )
