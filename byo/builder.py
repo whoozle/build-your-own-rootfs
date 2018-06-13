@@ -169,6 +169,8 @@ class Builder(object):
 		registry = {}
 		for src_dir, src_dirs, files in os.walk(self.install_dir, topdown = True):
 			dirname = os.path.relpath(src_dir, self.install_dir)
+			dst_dir = os.path.join(self.root_dir, dirname)
+			self.env.create_dir(dst_dir)
 			for file in files:
 				fullname = os.path.join(dirname, file)
 				tags = get_file_tags(fullname)
@@ -178,8 +180,6 @@ class Builder(object):
 
 				if copy_to_root:
 					logger.debug("installing %s %s", fullname, tags)
-					dst_dir = os.path.join(self.root_dir, dirname)
-					env.create_dir(dst_dir)
 					self.__link(dst_dir, src_dir, file)
 
 		self.__state.files = registry
