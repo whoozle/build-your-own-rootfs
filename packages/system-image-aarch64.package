@@ -1,5 +1,5 @@
 Depends-On:
  - sysroot
- - linux
+ - linux-aarch64
  - busybox
  - minimal-init

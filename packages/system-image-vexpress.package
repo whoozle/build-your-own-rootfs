@@ -1,0 +1,5 @@
+Depends-On:
+ - sysroot
+ - linux-vexpress
+ - busybox
+ - minimal-init
