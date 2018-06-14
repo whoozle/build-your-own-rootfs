@@ -6,4 +6,4 @@ Build:
  - ARCH={LinuxPlatform} CROSS_COMPILE={CrossCompilePrefix} make vexpress_defconfig
  - ARCH={LinuxPlatform} CROSS_COMPILE={CrossCompilePrefix} make -j{Jobs}
  - mkdir -p {InstallDirectory}/boot
- - ARCH={LinuxPlatform} CROSS_COMPILE={CrossCompilePrefix} make zinstall dtbs_install headers_install modules_install INSTALL_HDR_PATH={InstallDirectory}/usr INSTALL_MOD_PATH={InstallDirectory} INSTALL_PATH={InstallDirectory}/boot INSTALL_DTBS_PATH={InstallDirectory}/boot
+ - ARCH={LinuxPlatform} CROSS_COMPILE={CrossCompilePrefix} INSTALL_MOD_STRIP=1 make zinstall dtbs_install headers_install modules_install INSTALL_HDR_PATH={InstallDirectory}/usr INSTALL_MOD_PATH={InstallDirectory} INSTALL_PATH={InstallDirectory}/boot INSTALL_DTBS_PATH={InstallDirectory}/boot
