@@ -71,7 +71,7 @@ class Builder(object):
 	def __update_vars(self, vars):
 		vars['Jobs'] = cpu_count
 		vars['CrossCompilePrefix'] = self.prefix
-		linux_platforms = (('aarch64', 'arm64'), ('arm', 'arm'), ('mips', 'mips'), ('x86_64', 'x84_64'))
+		linux_platforms = (('aarch64', 'arm64'), ('arm', 'arm'), ('mips', 'mips'), ('x86_64', 'x84_64'), ('riscv32', 'riscv'), ('riscv64', 'riscv'))
 		for name, platform in linux_platforms:
 			if name in self.prefix:
 				vars['LinuxPlatform'] = platform
