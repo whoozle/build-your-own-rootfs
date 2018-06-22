@@ -7,4 +7,4 @@ Build:
  - ARCH={LinuxPlatform} CROSS_COMPILE={CrossCompilePrefix} make -j{Jobs}
  - mkdir -p {InstallDirectory}/boot
  - ARCH={LinuxPlatform} CROSS_COMPILE={CrossCompilePrefix} INSTALL_MOD_STRIP=1 make vmlinux headers_install INSTALL_HDR_PATH={InstallDirectory}/usr INSTALL_MOD_PATH={InstallDirectory} INSTALL_PATH={InstallDirectory}/boot
- - cp arch/riscv/
+ - cp vmlinux {InstallDirectory}/boot
