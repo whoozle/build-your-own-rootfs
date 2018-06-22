@@ -1,4 +1,4 @@
-Version: 4.16.14
+Version: 4.16.17
 Fetch: https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-{Version}.tar.xz
 Signature: https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-{Version}.tar.sign
 
