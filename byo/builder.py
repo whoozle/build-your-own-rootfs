@@ -8,7 +8,7 @@ import shlex
 import os.path
 import byo
 from byo.process import Environment
-from byo.package import State, PackageState
+from byo.package import State, PackageState, get_installed_packages
 import multiprocessing
 import sys
 
@@ -231,7 +231,10 @@ def _build(prefix, target, **options):
 def build(prefix, *targets, **options):
 	global_options = {}
 	global_options['extract'] = options['extract']
+	logger.debug('targets %s', targets)
 	logger.debug('options %s', options)
+	if not targets and options['extract']:
+		targets = get_installed_packages(prefix)
 
 	for target in targets:
 		for package in byo.package.get_package_queue(target):

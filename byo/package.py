@@ -130,3 +130,17 @@ def get_package_queue(name):
 				data = read_metadata(name)
 				queue += data.depends
 	return reversed(result)
+
+def get_installed_packages(prefix):
+	root = os.path.join(byo.root, 'build.' + prefix.strip('-'))
+	logger.debug('enumerating installed packages in %s', root)
+	r = []
+	packages = os.path.join(root, 'packages')
+	for package in os.listdir(packages):
+		if (package.startswith('.')):
+			continue
+		state = PackageState(os.path.join(packages, package))
+		if state.state != State.INSTALLED:
+			logger.warning('skipping package %s, %s', package, state.state)
+		r.append(package)
+	return r
