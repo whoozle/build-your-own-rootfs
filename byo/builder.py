@@ -90,7 +90,7 @@ class Builder(object):
 		vars['Linker'] = self.prefix + 'ld'
 
 	def __fetch_cache(self, url, fname):
-		downloads = self.env.create_dir('downloads')
+		downloads = self.env.create_dir('..', 'build.downloads')
 		cached = os.path.join(downloads, fname)
 		if os.path.exists(cached):
 			return cached
