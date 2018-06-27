@@ -1,6 +1,9 @@
 Version: 2.8.1
 Fetch: https://download.savannah.gnu.org/releases/freetype/freetype-{Version}.tar.bz2
 Signature: https://download.savannah.gnu.org/releases/freetype/freetype-{Version}.tar.bz2.sig
+Depends-On:
+ - zlib
+ - libpng
 
 Build:
  - ./configure --prefix=/usr --host={Host} --with-png=no --disable-shared --enable-static
