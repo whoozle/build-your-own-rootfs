@@ -4,8 +4,9 @@ Signature: https://download.savannah.gnu.org/releases/freetype/freetype-{Version
 Depends-On:
  - zlib
  - libpng
+ - bzip2
 
 Build:
- - ./configure --prefix=/usr --host={Host} --with-png=no --disable-shared --enable-static
+ - CPPFLAGS=-I{TargetDevelopmentRoot}/usr/include LDFLAGS=-L{TargetDevelopmentRoot}/usr/lib ./configure --prefix=/usr --host={Host} --enable-static
  - make -j{Jobs}
  - make install DESTDIR={InstallDirectory}
