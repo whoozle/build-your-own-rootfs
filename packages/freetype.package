@@ -2,12 +2,10 @@ Version: 2.8.1
 Fetch: https://download.savannah.gnu.org/releases/freetype/freetype-{Version}.tar.bz2
 Signature: https://download.savannah.gnu.org/releases/freetype/freetype-{Version}.tar.bz2.sig
 Depends-On:
- - zlib
  - libpng
- - bzip2
 
 Build:
  - patch -p1 -i "{AuxFilesDirectory}/enable-lcd-rendering.patch"
- - CPPFLAGS=-I{TargetDevelopmentRoot}/usr/include LDFLAGS=-L{TargetDevelopmentRoot}/usr/lib ./configure --prefix=/usr --host={Host} --enable-static --with-png=no
+ - CPPFLAGS=-I{TargetDevelopmentRoot}/usr/include LDFLAGS=-L{TargetDevelopmentRoot}/usr/lib ./configure --prefix=/usr --host={Host} --enable-static --without-zlib --without-bzip2 --with-png=no
  - make -j{Jobs}
  - make install DESTDIR={InstallDirectory}
