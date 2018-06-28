@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "mounting /tmp"
+mount -t tmpfs tmp /tmp
 echo "mounting /dev"
 mount -t devtmpfs dev /dev
 echo "mounting /proc"
