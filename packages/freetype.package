@@ -7,6 +7,7 @@ Depends-On:
  - bzip2
 
 Build:
- - CPPFLAGS=-I{TargetDevelopmentRoot}/usr/include LDFLAGS=-L{TargetDevelopmentRoot}/usr/lib ./configure --prefix=/usr --host={Host} --enable-static
+ - patch -p1 -i "{AuxFilesDirectory}/enable-lcd-rendering.patch"
+ - CPPFLAGS=-I{TargetDevelopmentRoot}/usr/include LDFLAGS=-L{TargetDevelopmentRoot}/usr/lib ./configure --prefix=/usr --host={Host} --enable-static --with-png=no
  - make -j{Jobs}
  - make install DESTDIR={InstallDirectory}
