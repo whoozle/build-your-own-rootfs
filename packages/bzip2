@@ -1,9 +1,0 @@
-V=1.0.6
-F=$(download http://www.bzip.org/${V}/bzip2-${V}.tar.gz)
-unpack $F bzip2-${V}
-
-try pushd .build/bzip2-${V}
-
-try make install PREFIX=${INSTALL_DIR}/usr -j${JOBS}
-
-popd

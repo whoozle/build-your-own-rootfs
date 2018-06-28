@@ -1,9 +1,0 @@
-V=1.2.11
-F=$(download http://zlib.net/zlib-${V}.tar.xz)
-unpack $F zlib-${V}
-
-try pushd .build/zlib-${V}
-TARGETMACH=${HOST} CROSS=${CROSS_COMPILE} try ./configure --prefix=/usr
-try make -j${JOBS}
-try make install DESTDIR=${INSTALL_DIR}
-popd
