@@ -1,0 +1,11 @@
+Version: 4.16.17
+Fetch: https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-{Version}.tar.xz
+Signature: https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-{Version}.tar.sign
+
+Depends:
+ - libelfutils
+ - libdwarf
+ - libelf
+
+Build:
+ - ARCH={LinuxPlatform} CROSS_COMPILE={CrossCompilePrefix} make WERROR=0 DESTDIR={InstallDirectory} V=1 JOBS={Jobs} -C tools/perf install
