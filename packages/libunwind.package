@@ -1,0 +1,7 @@
+Version: 1.2
+Fetch: http://download.savannah.nongnu.org/releases/libunwind/libunwind-{Version}.tar.gz
+
+Build:
+ - CROSS_PREFIX={CrossCompilePrefix} ./configure --prefix=/usr
+ - make -j{Jobs}
+ - make install DESTDIR={InstallDirectory}

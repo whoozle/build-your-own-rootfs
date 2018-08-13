@@ -1,0 +1,10 @@
+Version: 0.173
+Fetch: http://sourceware.org/pub/elfutils/{Version}/elfutils-{Version}.tar.bz2
+
+Depends-On:
+ - bzip2
+
+Build:
+ - CROSS_PREFIX={CrossCompilePrefix} ./configure --prefix=/usr
+ - make -j{Jobs}
+ - make install DESTDIR={InstallDirectory}

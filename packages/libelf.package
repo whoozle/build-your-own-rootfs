@@ -1,0 +1,7 @@
+Version: 0.8.13
+Fetch: http://www.mr511.de/software/libelf-{Version}.tar.gz
+
+Build:
+ - CROSS_PREFIX={CrossCompilePrefix} ./configure --prefix=/usr
+ - make -j{Jobs}
+ - make install instroot={InstallDirectory}
