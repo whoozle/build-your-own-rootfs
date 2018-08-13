@@ -28,6 +28,7 @@ def get_file_tags(path): #fixme: put into base package script
 		or path.startswith('etc/portage') \
 		or (path.startswith('usr/bin') and path.endswith('-config')) \
 		or path.endswith('.a'):
+		or path.endswith('.la'):
 		return ('devel', )
 	else:
 		return ('core', )
