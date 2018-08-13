@@ -2,9 +2,10 @@ Version: 0.173
 Fetch: http://sourceware.org/pub/elfutils/{Version}/elfutils-{Version}.tar.bz2
 
 Depends-On:
+ - zlib
  - bzip2
 
 Build:
- - CROSS_PREFIX={CrossCompilePrefix} ./configure --prefix=/usr
+ - CC={CCompiler} CPPFLAGS=-I{TargetDevelopmentRoot}/usr/include LDFLAGS="-L{TargetDevelopmentRoot}/usr/lib -Wl,-rpath-link,{TargetDevelopmentRoot}/usr/lib" ./configure --prefix=/usr --host={Host} --disable-textrelcheck
  - make -j{Jobs}
  - make install DESTDIR={InstallDirectory}

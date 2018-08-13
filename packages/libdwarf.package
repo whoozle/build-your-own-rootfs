@@ -2,9 +2,9 @@ Version: 20180809
 Fetch: https://www.prevanders.net/libdwarf-{Version}.tar.gz
 
 Depends-On:
- - bzip2
+ - libelf
 
 Build:
- - CROSS_PREFIX={CrossCompilePrefix} ./configure --prefix=/usr
+ - CC={CCompiler} CPPFLAGS=-I{TargetDevelopmentRoot}/usr/include LDFLAGS=-L{TargetDevelopmentRoot}/usr/lib ./configure --prefix=/usr --host={Host}
  - make -j{Jobs}
  - make install DESTDIR={InstallDirectory}
