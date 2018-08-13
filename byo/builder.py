@@ -19,6 +19,10 @@ logger = logging.getLogger(__name__)
 def get_file_tags(path): #fixme: put into base package script
 	if path.startswith('boot'):
 		return ('boot', )
+	if path.endswith('.pdf') \
+		or path.endswith('.man') \
+		or path.endswith('.info'):
+		return ('doc', )
 	if path.startswith('usr/include') \
 		or path.startswith('usr/man') \
 		or path.endswith('Makefile') \
