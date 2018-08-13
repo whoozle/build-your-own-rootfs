@@ -1,0 +1,10 @@
+Version: 20180809
+Fetch: https://www.prevanders.net/libdwarf-{Version}.tar.gz
+
+Depends-On:
+ - bzip2
+
+Build:
+ - CROSS_PREFIX={CrossCompilePrefix} ./configure --prefix=/usr
+ - make -j{Jobs}
+ - make install DESTDIR={InstallDirectory}
