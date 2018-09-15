@@ -2,6 +2,6 @@ Version: 1.1.4
 Fetch: https://www.infradead.org/~tgr/libnl/files/libnl-{Version}.tar.gz
 
 Build:
- - ./configure --host=${Host} --prefix=/usr
+ - ./configure --host={Host} --prefix=/usr
  - make -j{Jobs} CC={CCompiler}
  - make install DESTDIR={InstallDirectory}
