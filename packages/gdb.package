@@ -2,7 +2,9 @@ Version: 8.2
 Fetch: http://ftp.gnu.org/gnu/gdb/gdb-{Version}.tar.gz
 Signature: http://ftp.gnu.org/gnu/gdb/gdb-{Version}.tar.gz.sig
 
+Tag: devel
+
 Build:
  - ./configure --host={Host} --prefix=/usr
  - make -j{Jobs} CC={CCompiler} CXX={CXXCompiler}
- - make install-strip DESTDIR={InstallDirectory}
+ - make install DESTDIR={InstallDirectory}
