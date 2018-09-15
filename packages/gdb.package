@@ -5,4 +5,4 @@ Signature: http://ftp.gnu.org/gnu/gdb/gdb-{Version}.tar.gz.sig
 Build:
  - ./configure --host={Host} --prefix=/usr
  - make -j{Jobs} CC={CCompiler} CXX={CXXCompiler}
- - make install DESTDIR={InstallDirectory}
+ - make install-strip DESTDIR={InstallDirectory}
