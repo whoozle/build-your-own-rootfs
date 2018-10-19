@@ -1,0 +1,7 @@
+Version: 3.14.0
+Fetch: http://www.valgrind.org/downloads/valgrind-{Version}.tar.bz2
+
+Build:
+ - ./configure --prefix=/usr --host={Host}
+ - make -j{Jobs}
+ - make install DESTDIR={InstallDirectory}
