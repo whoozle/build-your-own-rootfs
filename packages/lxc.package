@@ -1,0 +1,8 @@
+Version: 3.0.2
+Fetch: https://github.com/lxc/lxc/archive/lxc-{Version}.tar.gz
+
+Build:
+ - ./autogen.sh
+ - ./configure --prefix=/usr --host={Host}
+ - make -j{Jobs}
+ - make install DESTDIR={InstallDirectory}
