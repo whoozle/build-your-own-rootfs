@@ -1,5 +1,8 @@
-Version: 1.0.6
-Fetch: http://www.bzip.org/{Version}/bzip2-{Version}.tar.gz
+Version: 1.0.8
+Fetch: https://sourceware.org/pub/bzip2/bzip2-{Version}.tar.gz
+Signature: https://sourceware.org/pub/bzip2/bzip2-{Version}.tar.gz.sign
+Public-Key: https://sourceware.org/pub/bzip2/gpgkey-5C1D1AA44BE649DE760A.gpg
+
 
 Build:
  - make -j{Jobs} install CC={CCompiler} PREFIX={InstallDirectory}/usr
