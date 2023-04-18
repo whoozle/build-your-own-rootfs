@@ -1,7 +1,0 @@
-Version: 0.8.13
-Fetch: http://www.mr511.de/software/libelf-{Version}.tar.gz
-
-Build:
- - CC={CCompiler} ./configure --prefix=/usr --host={Host}
- - make -j{Jobs}
- - make install instroot={InstallDirectory}
