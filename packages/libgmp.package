@@ -1,0 +1,7 @@
+Version: 
+Fetch: https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz
+
+Build:
+ - ./configure --prefix=/usr --host={Host}
+ - make -j{Jobs}
+ - make install DESTDIR={InstallDirectory}
