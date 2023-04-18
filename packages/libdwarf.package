@@ -1,8 +1,5 @@
-Version: 20180809
-Fetch: https://www.prevanders.net/libdwarf-{Version}.tar.gz
-
-Depends-On:
- - libelf
+Version: 0.6.0
+Fetch: https://www.prevanders.net/libdwarf-{Version}.tar.xz
 
 Build:
  - CC={CCompiler} CPPFLAGS=-I{TargetDevelopmentRoot}/usr/include LDFLAGS=-L{TargetDevelopmentRoot}/usr/lib ./configure --prefix=/usr --host={Host}
