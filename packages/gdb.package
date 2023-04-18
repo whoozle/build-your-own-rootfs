@@ -4,7 +4,10 @@ Signature: http://ftp.gnu.org/gnu/gdb/gdb-{Version}.tar.xz.sig
 
 Tag: devel
 
+Depends-On:
+ - libgmp
+
 Build:
- - ./configure --host={Host} --prefix=/usr
+ - ./configure --host={Host} --prefix=/usr --with-libgmp-prefix={TargetDevelopmentRoot}/usr
  - make -j{Jobs} CC={CCompiler} CXX={CXXCompiler}
  - make install DESTDIR={InstallDirectory}
