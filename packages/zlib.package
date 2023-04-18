@@ -1,4 +1,4 @@
-Version: 1.2.11
+Version: 1.2.13
 Fetch: https://zlib.net/zlib-{Version}.tar.gz
 
 Build:
