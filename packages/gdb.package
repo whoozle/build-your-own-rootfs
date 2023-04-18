@@ -1,6 +1,6 @@
-Version: 8.2
-Fetch: http://ftp.gnu.org/gnu/gdb/gdb-{Version}.tar.gz
-Signature: http://ftp.gnu.org/gnu/gdb/gdb-{Version}.tar.gz.sig
+Version: 13.1
+Fetch: http://ftp.gnu.org/gnu/gdb/gdb-{Version}.tar.xz
+Signature: http://ftp.gnu.org/gnu/gdb/gdb-{Version}.tar.xz.sig
 
 Tag: devel
 
