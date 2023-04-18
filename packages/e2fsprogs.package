@@ -1,4 +1,4 @@
-Version: 1.44.1
+Version: 1.47.0
 Fetch: https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v{Version}/e2fsprogs-{Version}.tar.xz
 
 Build:
