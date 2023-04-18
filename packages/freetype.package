@@ -1,6 +1,6 @@
-Version: 2.8.1
-Fetch: https://download.savannah.gnu.org/releases/freetype/freetype-{Version}.tar.bz2
-Signature: https://download.savannah.gnu.org/releases/freetype/freetype-{Version}.tar.bz2.sig
+Version: 2.13.0
+Fetch: https://sourceforge.net/projects/freetype/files/freetype2/{Version}/freetype-{Version}.tar.xz/download
+Signature: https://sourceforge.net/projects/freetype/files/freetype2/{Version}/freetype-{Version}.tar.xz.sig/download
 Depends-On:
  - libpng
 
