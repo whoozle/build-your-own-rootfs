@@ -1,4 +1,4 @@
-Version: 1.2
+Version: 1.6.2
 Fetch: http://download.savannah.nongnu.org/releases/libunwind/libunwind-{Version}.tar.gz
 
 Build:
