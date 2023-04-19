@@ -7,6 +7,7 @@ echo "LIBS += -L${ROOT}/usr/lib" >> .config
 echo "LIBS_p += -L${ROOT}/usr/lib -ldl" >> .config
 echo "export LIBDIR=/usr/lib" >> .config
 echo "export BINDIR=/usr/bin" >> .config
+echo "export CONFIG_TLS=internal" >> .config
 cat defconfig >> .config
 popd
 

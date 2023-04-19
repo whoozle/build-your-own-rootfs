@@ -1,13 +1,13 @@
-Version: 2.6
+Version: 2.10
 Fetch: https://w1.fi/releases/wpa_supplicant-{Version}.tar.gz
 
 Build:
  - cp "{AuxFilesDirectory}/configure" "{WorkDirectory}"
  - ./configure {TargetDevelopmentRoot}
  - make -C wpa_supplicant -j{Jobs} CC={CCompiler}
- - make -C wpa_supplicant install DESTDIR={InstallDirectory}
+ - make -C wpa_supplicant install DESTDIR={InstallDirectory} LIBDIR=lib/ BINDIR=bin/
 
 Depends-On:
- - openssl
+ - libtommath
  - libnl
  - linux
