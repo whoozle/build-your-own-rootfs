@@ -1,7 +1,7 @@
-Version: 1.5.3
+Version: 2.1.5.1
 Fetch: https://downloads.sourceforge.net/project/libjpeg-turbo/{Version}/libjpeg-turbo-{Version}.tar.gz
 
 Build:
- - ./configure --prefix=/usr --host={Host} CPPFLAGS=-I{TargetDevelopmentRoot}/usr/include LDFLAGS=-L{TargetDevelopmentRoot}/usr/lib
+ - cmake -DCMAKE_C_COMPILER={CCompiler} -DCMAKE_FIND_ROOT_PATH={TargetDevelopmentRoot} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX={InstallDirectory}
  - make -j{Jobs}
- - make install DESTDIR={InstallDirectory}
+ - make install
