@@ -110,7 +110,7 @@ class Metadata(object):
 def read_metadata(name):
 	root = os.path.join(byo.root, 'packages')
 	with open(os.path.join(root, name + ".package")) as f:
-		data = yaml.load(f)
+		data = yaml.safe_load(f)
 	logger.debug('read metadata %s %s', name, data)
 	data = Metadata(data)
 	return data
