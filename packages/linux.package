@@ -1,6 +1,7 @@
-Version: 4.16.17
-Fetch: https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-{Version}.tar.xz
-Signature: https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-{Version}.tar.sign
+Release: 6
+Version: "{Release}.2.11"
+Fetch: https://cdn.kernel.org/pub/linux/kernel/v{Release}.x/linux-{Version}.tar.xz
+Signature: https://cdn.kernel.org/pub/linux/kernel/v{Release}.x/linux-{Version}.tar.sign
 
 Build:
  - ARCH={LinuxPlatform} CROSS_COMPILE={CrossCompilePrefix} make defconfig
