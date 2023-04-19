@@ -1,0 +1,5 @@
+Version: 1.18.2
+Fetch: https://github.com/libtom/libtomcrypt/releases/download/v{Version}/crypt-{Version}.tar.xz
+
+Build:
+ - make -j{Jobs} CC={CCompiler} CXX={CXXCompiler} DESTDIR={InstallDirectory} PREFIX=/usr install

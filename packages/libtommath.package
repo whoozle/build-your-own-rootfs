@@ -1,0 +1,5 @@
+Version: 1.2.0
+Fetch: https://github.com/libtom/libtommath/releases/download/v{Version}/ltm-{Version}.tar.xz
+
+Build:
+ - make -j{Jobs} CC={CCompiler} CXX={CXXCompiler} DESTDIR={InstallDirectory} PREFIX=/usr install
