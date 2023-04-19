@@ -158,7 +158,7 @@ class Builder(object):
 			try:
 				os.link(src_file, dst_file)
 			except OSError as e:
-				if e.errno == 18: #x-device link
+				if e.errno == 18 or e.errno == 1: #x-device link/permission denied
 					try:
 						shutil.copy(src_file, dst_file)
 					except FileNotFoundError:
